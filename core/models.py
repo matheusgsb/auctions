@@ -59,15 +59,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = u'Custom user'
 
-class Auction(models.Model):
-    auctioneer = models.ForeignKey('CustomUser', verbose_name=u'Auctioneer')
-    date_begin = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Start date')
-    date_end = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'End date')
-    product = models.OneToOneField('Product', verbose_name=u'Product')
-
-    class Meta:
-        abstract = True
-
 class Product(models.Model):
     CATEGORIES = (
         ('AUDIO', 'Audio & Stereo'),
@@ -97,3 +88,21 @@ class Bid(models.Model):
 
     def __unicode__(self):
         return self.bidder
+
+class Auction(models.Model):
+    TYPE = (
+        ('SEAL', 'Sealed bid auction'),
+        ('BRIT', 'British auction'),
+        ('DUTCH', 'Dutch auction'),
+        ('VICK', 'Vickrey auction'),
+    )
+    auctioneer = models.ForeignKey('CustomUser', verbose_name=u'Auctioneer')
+    date_begin = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Start date')
+    date_end = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'End date')
+    product = models.OneToOneField('Product', verbose_name=u'Product')
+    min_price = models.FloatField(verbose_name=u'Minimum price')
+    auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
+
+class Dutch(Auction):
+    start_price = models.FloatField(verbose_name=u'Start price')
+
