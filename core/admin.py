@@ -33,6 +33,6 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
-# admin.site.register(Auction)
+admin.site.register(Auction)
 admin.site.register(Bid)
 admin.site.register(Product)

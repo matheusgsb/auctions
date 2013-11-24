@@ -64,7 +64,7 @@ class Product(models.Model):
         ('AUDIO', 'Audio & Stereo'),
         ('BABY', 'Baby & Kids Stuff'),
         ('MEDIA', 'CDs, DVDs, Games & Books'),
-        'Clothes, Footwear & Accessories',
+        ('FASH', 'Clothes, Footwear & Accessories'),
         ('TECH', 'Computers & Software'),
         ('HOME', 'Home & Garden'),
         ('MUSIC', 'Music & Instruments'),
@@ -96,13 +96,11 @@ class Auction(models.Model):
         ('DUTCH', 'Dutch auction'),
         ('VICK', 'Vickrey auction'),
     )
+
     auctioneer = models.ForeignKey('CustomUser', verbose_name=u'Auctioneer')
     date_begin = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Start date')
     date_end = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'End date')
     product = models.OneToOneField('Product', verbose_name=u'Product')
-    min_price = models.FloatField(verbose_name=u'Minimum price')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
-
-class Dutch(Auction):
-    start_price = models.FloatField(verbose_name=u'Start price')
-
+    start_price = models.FloatField(default=0, verbose_name=u'Start price')
+    min_price = models.FloatField(default=0, verbose_name=u'Minimum price')
