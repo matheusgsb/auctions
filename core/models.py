@@ -36,7 +36,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['email']
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -85,9 +85,10 @@ class Bid(models.Model):
     bidder = models.ForeignKey('CustomUser', verbose_name=u'Bidder')
     date = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Date')
     value = models.FloatField(verbose_name=u'Bid amount')
+    auction = models.ForeignKey('Auction', verbose_name=u'Auction')
 
     def __unicode__(self):
-        return self.bidder
+        return str(self.id)
 
 class Auction(models.Model):
     TYPE = (
@@ -100,7 +101,21 @@ class Auction(models.Model):
     auctioneer = models.ForeignKey('CustomUser', verbose_name=u'Auctioneer')
     date_begin = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Start date')
     date_end = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'End date')
-    product = models.OneToOneField('Product', verbose_name=u'Product')
+    product = models.ForeignKey('Product', verbose_name=u'Product')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
     start_price = models.FloatField(default=0, verbose_name=u'Start price')
     min_price = models.FloatField(default=0, verbose_name=u'Minimum price')
+
+    def __unicode__(self):
+        return str(self.id)
+
+    def get_winning_bid(self):
+        bids = self.bid_set.objects.all()
+        if len(bids) == 0:
+            return None
+        else:
+            return 1
+
+
+# class Dutch(Auction):
+    

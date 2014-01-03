@@ -17,8 +17,7 @@ class Migration(SchemaMigration):
             ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=25)),
             ('email', self.gf('django.db.models.fields.EmailField')(unique=True, max_length=255)),
             ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=100, null=True, blank=True)),
-            ('signup_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 11, 24, 0, 0))),
-            ('nickname', self.gf('django.db.models.fields.CharField')(default='', max_length=100, null=True, blank=True)),
+            ('signup_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 3, 0, 0))),
             ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('is_admin', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_staff', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -56,8 +55,9 @@ class Migration(SchemaMigration):
         db.create_table(u'core_bid', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('bidder', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.CustomUser'])),
-            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 11, 24, 0, 0))),
+            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 3, 0, 0))),
             ('value', self.gf('django.db.models.fields.FloatField')()),
+            ('auction', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Auction'])),
         ))
         db.send_create_signal(u'core', ['Bid'])
 
@@ -65,9 +65,9 @@ class Migration(SchemaMigration):
         db.create_table(u'core_auction', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('auctioneer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.CustomUser'])),
-            ('date_begin', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 11, 24, 0, 0))),
-            ('date_end', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 11, 24, 0, 0))),
-            ('product', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['core.Product'], unique=True)),
+            ('date_begin', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 3, 0, 0))),
+            ('date_end', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 3, 0, 0))),
+            ('product', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Product'])),
             ('auction_type', self.gf('django.db.models.fields.CharField')(default='BRIT', max_length=5)),
             ('start_price', self.gf('django.db.models.fields.FloatField')(default=0)),
             ('min_price', self.gf('django.db.models.fields.FloatField')(default=0)),
@@ -120,17 +120,18 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Auction'},
             'auction_type': ('django.db.models.fields.CharField', [], {'default': "'BRIT'", 'max_length': '5'}),
             'auctioneer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.CustomUser']"}),
-            'date_begin': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 11, 24, 0, 0)'}),
-            'date_end': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 11, 24, 0, 0)'}),
+            'date_begin': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 3, 0, 0)'}),
+            'date_end': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 3, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'min_price': ('django.db.models.fields.FloatField', [], {'default': '0'}),
-            'product': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['core.Product']", 'unique': 'True'}),
+            'product': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Product']"}),
             'start_price': ('django.db.models.fields.FloatField', [], {'default': '0'})
         },
         u'core.bid': {
             'Meta': {'object_name': 'Bid'},
+            'auction': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Auction']"}),
             'bidder': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.CustomUser']"}),
-            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 11, 24, 0, 0)'}),
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 3, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'value': ('django.db.models.fields.FloatField', [], {})
         },
@@ -145,9 +146,8 @@ class Migration(SchemaMigration):
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'nickname': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'signup_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 11, 24, 0, 0)'}),
+            'signup_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 3, 0, 0)'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '25'})
         },
