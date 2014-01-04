@@ -6,7 +6,36 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.templatetags.static import static
+from django.contrib.auth.decorators import user_passes_test, login_required
+from .utils import *
+from .models import *
+from .forms import *
 
 # Create your views here.
 def home(request):
-	return HttpResponseRedirect('/admin/')
+    return HttpResponseRedirect('/admin/')
+
+@user_passes_test(lambda u: u.is_anonymous)
+def login(request):
+    if request.method=='POST':
+        if log_user(request, request.POST['username'], request.POST['password']):
+            return HttpResponseRedirect('/home/')
+        else:
+            request.session['login_failed'] = True
+    return HttpResponseRedirect('/home/')
+
+@login_required
+def logout(request):
+    pass
+
+@user_passes_test(lambda u: u.is_anonymous)
+def register(request):
+    c = RequestContext(request)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = CustomUserCreationForm()
+    c['form'] = form
+    return render_to_response('register.html', c)

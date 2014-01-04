@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <p class="titulo3 font_gibson text_color5 right_titulo_align">REGISTRATION</p>
+    <form role="form" action="" method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group contract_form {% if field.errors %}has-error{% endif %}">
+        <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not field.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}" class="form-control font_source_semibold contract_field_width">
+      </div>
+      {% endfor %}
+      <input type="submit" value="REGISTER">
+    </form>
+  </div>
+</body>
+</html>
