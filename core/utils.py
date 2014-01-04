@@ -46,6 +46,8 @@ def new_prod(title, description, category):
 
 #Creates a new auction
 #Not taking into account dutch auction
+#OBS.: Do not create a user and use him/her as a auctioneer straightaway. Save it to the 
+#database and retrieve it to get its user id
 def new_auction(auctioneer, date_begin, date_end, product, auction_type, start_price, min_price):
     auction = Auction(auctioneer=auctioneer, 
         date_begin=date_begin, 
