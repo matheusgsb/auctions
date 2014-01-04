@@ -81,6 +81,9 @@ class Product(models.Model):
     category = models.CharField(max_length=5, choices=CATEGORIES, default='NA')
     # image = models.ImageField(upload_to='photos/%Y/%m/%d')
 
+    def __unicode__(self):
+        return str(self.id) + " - " + self.title
+
 class Bid(models.Model):
     bidder = models.ForeignKey('CustomUser', verbose_name=u'Bidder')
     date = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Date')
@@ -88,7 +91,7 @@ class Bid(models.Model):
     auction = models.ForeignKey('Auction', verbose_name=u'Auction')
 
     def __unicode__(self):
-        return str(self.id)
+        return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
 
 class Auction(models.Model):
     TYPE = (
@@ -104,18 +107,45 @@ class Auction(models.Model):
     product = models.ForeignKey('Product', verbose_name=u'Product')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
     start_price = models.FloatField(default=0, verbose_name=u'Start price')
+    # min_price used for Dutch auctions
     min_price = models.FloatField(default=0, verbose_name=u'Minimum price')
 
     def __unicode__(self):
         return str(self.id)
 
-    def get_winning_bid(self):
-        bids = self.bid_set.objects.all()
-        if len(bids) == 0:
+    def winning_bid(self):
+        bids = Bid.objects.filter(auction=self.id)
+        if not len(bids):
             return None
         else:
-            return 1
+            bids_sort = sorted(bids, key=lambda bid: bid.value, reverse=True)
+            return bids_sort[0]
 
+    def second_bid(self):
+        bids = Bid.objects.filter(auction=self.id)
+        if len(bids) < 2:
+            return None
+        else:
+            bids_sort = sorted(bids, key=lambda bid: bid.value, reverse=True)
+            return bids_sort[1]
 
-# class Dutch(Auction):
-    
+    def winning_value(self):
+        w_bid = self.winning_bid()
+        if w_bid == None:
+            return None
+        else:
+            if self.auction_type == 'VICK':
+                s_bid = self.second_bid()
+                if s_bid == None:
+                    return self.start_price
+                else:
+                    return s_bid.value
+            else:
+                return w_bid.value
+
+    def winner(self):
+        w_bid = self.winning_bid()
+        if w_bid == None:
+            return None
+        else:
+            return w_bid.bidder
