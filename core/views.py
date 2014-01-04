@@ -36,6 +36,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            return HttpResponseRedirect('/login/')
         else:
             c['register_problem'] = True
             c['username_in_use'] = 'username' in form.errors.keys()
