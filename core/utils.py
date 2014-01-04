@@ -36,3 +36,22 @@ def log_user(request, username, password):
             return False
     else:
         return False
+
+#Creates a new product and save it on the database
+#Returns a reference to the product
+def new_prod(title, description, category):
+    prod = Product(title=title, description=description, category=category)
+    prod.save()    
+    return prod
+
+#Creates a new auction
+#Not taking into account dutch auction
+def new_auction(auctioneer, date_begin, date_end, product, auction_type, start_price, min_price):
+    auction = Auction(auctioneer=auctioneer, 
+        date_begin=date_begin, 
+        date_end=date_end, 
+        product=product, 
+        auction_type=auction_type, 
+        start_price=start_price, 
+        min_price=min_price)
+    auction.save()
