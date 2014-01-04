@@ -31,10 +31,15 @@ def logout(request):
 @user_passes_test(lambda u: u.is_anonymous)
 def register(request):
     c = RequestContext(request)
+    c['register_problem'] = False
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+        else:
+            c['register_problem'] = True
+            c['username_in_use'] = 'username' in form.errors.keys()
+            c['email_in_use'] = 'email' in form.errors.keys()
     else:
         form = CustomUserCreationForm()
     c['form'] = form

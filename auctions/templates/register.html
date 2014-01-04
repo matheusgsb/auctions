@@ -6,6 +6,11 @@
 </head>
 
 <body>
+  {% if register_problem %}
+  <p>There was a problem with your registration. Please, try again</p>
+  {% if username_in_use %}<p style="color:#ff0000">The username provided is already in use</p>{% endif %}
+  {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
+  {% endif %}
   <p class="titulo3 font_gibson text_color5 right_titulo_align">REGISTRATION</p>
     <form role="form" action="" method="post">
       {% csrf_token %}
