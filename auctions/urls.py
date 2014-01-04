@@ -11,4 +11,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^home/$', 'core.views.home', name='home'),
     url(r'^register/$', 'core.views.register', name='register'),
+    url(r'^login/$', 'core.views.login', name='login'),
+    url(r'^logout/$', 'core.views.logout', name='logout'),
 )
