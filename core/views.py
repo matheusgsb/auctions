@@ -54,11 +54,25 @@ def profile(request):
 @login_required
 def edit_profile(request):
     c = RequestContext(request)
-    c['user'] = request.user
-    pass
+    c['register_problem'] = False
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST)
+        if form.is_valid():
+            form.save(request.user)
+            return HttpResponseRedirect('/home/')
+        else:
+            c['edit_problem'] = True
+            c['username_in_use'] = 'username' in form.errors.keys()
+            c['email_in_use'] = 'email' in form.errors.keys()
+    else:
+        form = CustomUserChangeForm()
+    c['form'] = form
+    return render_to_response('edit_profile.html', c)
+
     
 
 def forgot_password(request):
+
     c = RequestContext(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect('/home/')
@@ -70,6 +84,7 @@ def forgot_password(request):
         except:
             c['error'] = True
     return render_to_response('forgot_password.html', c)
+
 
 def auction(request, aid):
     c = RequestContext(request)

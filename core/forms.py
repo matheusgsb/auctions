@@ -30,11 +30,22 @@ class CustomUserCreationForm(forms.ModelForm):
 
 
 class CustomUserChangeForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField()
 
+    password = ReadOnlyPasswordHashField()
+    confirm_password = ReadOnlyPasswordHashField()
+    
     class Meta:
         model = CustomUser
+        fields = ( 'email',)
         exclude = []
 
     def clean_password(self):
-        return self.initial['password']
+        #return self.initial['password']
+        pass
+
+    def save(self, update_user, commit=True):
+        # Save the provided password in hashed format
+        update_user.set_password(self.cleaned_data.get("password"))
+        if commit:
+            update_user.save()
+        return user
