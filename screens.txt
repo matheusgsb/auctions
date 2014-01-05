@@ -1,0 +1,8 @@
+Mother Screen
+
+-Landing Page
+-User registration
+-User Profile
+-Forgot Password
+-Search
+-Visualize auction
