@@ -1,0 +1,125 @@
+body {
+	margin: 0px 0px;
+	word-wrap: break-word;
+	font: 14px Helvetica,Arial,Tahoma,Verdana,Sans-serif;
+	background-color: #E5E5E5;
+}
+
+#header {
+	height: 100px;
+	background: url('bg.png') repeat-x;
+}
+
+#header-table {
+	padding: 20px;
+	width: 100%;
+	min-width: 900px;
+}
+
+#logo {
+	width: 300px;
+	background-color: #fff;
+}
+
+#search, #search text {
+	min-width: 400px;
+	color: #fff;
+	font-size: 14px;
+}
+
+#user {
+	width: 400px;
+
+}
+
+#container {
+	width: 100%;
+	min-width: 900px;
+	min-height: 500px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#navbar {
+	height: 40px;
+	background-image: linear-gradient(rgb(255, 255, 255), rgb(238, 238, 238) 50%, rgb(228, 228, 228));
+    background-repeat: no-repeat;
+    border-top: 1px solid rgb(213, 213, 213);
+    border-bottom: 1px solid rgb(150, 150, 150);  
+    filter: none;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+}
+
+#navbar a, #navbar a:visited, #navbar a:active, #side-bar a, #side-bar a:visited, #side-bar a:active  {
+	text-decoration: none;
+	color:#575757;
+}
+
+#navbar a:hover {
+	font-weight: bold;
+	color:#2B2B2B;
+}
+
+#side-bar {
+	margin-left:20px;
+	margin-right: 20px;
+	float: left;
+	width: 300px;
+	min-height: 500px;
+	background-color: #DBDBDB;
+	margin-bottom: 20px;
+}
+
+#side-bar h1 {
+	font-size: 18px;
+	padding: 10px;
+	border-left: 3px solid #022D71;
+	background-color: #022D71;
+	color:#fff;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+#categories {
+	list-style: none outside none;
+	padding: 0px;
+	margin-top:0px;
+	margin-bottom: 0px;
+}
+
+#side-bar li {
+	font-size: 14px;
+	border: 0px solid black;
+	list-style: none;
+	border-left: 3px solid rgb(255, 255, 255);
+	position: relative;
+	overflow: hidden;
+	padding: 10px 10px;
+	border-bottom: 0px solid rgb(225, 225, 225);
+	transition: all 0.2s ease-in 0s;
+}
+
+#side-bar li:hover, #side-bar a:hover {
+	border-left-color: #022D71;
+	color: #022D71;
+}
+
+
+#content {
+	margin-left: 340px;
+	margin-right: 20px;
+	min-width: 600px;
+	min-height: 540px;
+	background-color: #DBDBDB;
+}
+
+#footer {
+	clear: both;
+	background-color: #696969;
+	height: 80px;
+}
+
+.center {
+	margin-right: auto;
+	margin-left: auto;
+}
