@@ -45,3 +45,24 @@ def register(request):
         form = CustomUserCreationForm()
     c['form'] = form
     return render_to_response('register.html', c)
+
+@login_required
+def profile(request):
+    pass
+
+@login_required
+def edit_profile(request):
+    c = RequestContext(request)
+    c['user'] = request.user
+    
+
+def forgot_password(request):
+    if request.method == "GET":
+        
+
+
+def auction(request, aid):
+    c = RequestContext(request)
+    auction = Auction.objects.get(id=aid)
+    c['auction'] = auction
+    return render_to_response('auction.html', c)
