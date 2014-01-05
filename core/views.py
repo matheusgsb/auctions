@@ -54,11 +54,12 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['user'] = request.user
+    return render_to_response('register.html', c)    
     
 
 def forgot_password(request):
-    if request.method == "GET":
-        
+    #if request.method == "GET":
+    pass    
 
 
 def auction(request, aid):
