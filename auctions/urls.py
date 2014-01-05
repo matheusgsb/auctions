@@ -16,6 +16,6 @@ urlpatterns = patterns('',
     url(r'^profile/$', 'core.views.profile', name='profile'),
     url(r'^edit_profile/$', 'core.views.edit_profile', name='edit_profile'),
     url(r'^forgot_password/$', 'core.views.forgot_password', name='forgot_password'),
-    url(r'^auction/(?P<aid>\d+)/$', 'popup.views.auction', name='auction'),
+    url(r'^auction/(?P<aid>\d+)/$', 'core.views.auction', name='auction'),
 
 )
