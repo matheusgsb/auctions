@@ -1,10 +1,9 @@
 <html>
 	<head>
-		<title>Home</title>
+		<title>{% block title %} Template {% endblock %}</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 	</head>
 	<body>
-
 		<div id="header">
 			<table border="0" id="header-table" class="center">
 				<tr height="60">
@@ -20,7 +19,7 @@
 							</table>
 						</form>
 					</td>
-					<td id="user">&nbsp;</td>
+					<td id="user">{% block user_login %}&nbsp;{% endblock %}</td>
 				</tr>
 			</table>
 		</div>
@@ -33,9 +32,7 @@
 				</tr>
 			</table>
 		</div>
-
 		<div id="container">
-		
 			<div id="side-bar">
 				<h1>Categories</h1>
 				<ul id="categories">
@@ -54,18 +51,8 @@
 					<li> <a href="#"> Other </a> </li>
 				</ul>
 			</div>
-
-			<div id="content">
-					
-				
-			</div>
-
+			<div id="content"> {% block content %} {% endblock %} </div>
 		</div>
-
-		<div id="footer">
-			&nbsp;
-		</div>
-
-
+		<div id="footer">{% block footer %}{% endblock %}</div>
 	</body>
 </html>
