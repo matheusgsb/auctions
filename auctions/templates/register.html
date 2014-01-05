@@ -7,7 +7,7 @@
   {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
   {% endif %}
   {% block content %}
-    <p class="titulo3 font_gibson text_color5 right_titulo_align">REGISTRATION</p>
+    <h1> Registration </h1>
     <form role="form" action="" method="post">
       {% csrf_token %}
       {% for field in form %}
