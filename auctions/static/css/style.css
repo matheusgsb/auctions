@@ -106,12 +106,15 @@ body {
 
 
 #content {
-	padding-left: 340px;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 340px;
+	margin-right: 20px;
 	min-width: 600px;
 	min-height: 540px;
-	background-color: #DBDBDB;
+}
+
+#content h1 {
+	font-size: 18px;
+	color: #000;
 }
 
 #footer {
