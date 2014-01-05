@@ -54,10 +54,11 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['user'] = request.user
+    pass
     
 
 def forgot_password(request):
-    if request.method == "GET":
+    pass
         
 
 
