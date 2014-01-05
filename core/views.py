@@ -74,17 +74,15 @@ def edit_profile(request):
 def forgot_password(request):
 
     c = RequestContext(request)
-    c['post_req'] = False
-    if request.method == "POST":
-        c['post_req'] = True
-        user = CustomUser.objects.filter(email=request.get('email'))
-        if not user:
-            c['invalid_email'] = True
-        # else:
-            # c['invalid_email'] = False
-            # TODO: change the way we send messages
-            # message = "Hello, {0}.\nYou are receiving this message because you have requested your password.\nYou password is {1}"
-            # send_mail('Forgot Password', message.format(user.username, user.password))
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/home/')
+    if request.method=='POST':
+        email = request.POST.get('email')
+        try:
+            recover_password(email)
+            c['ok'] = True
+        except:
+            c['error'] = True
     return render_to_response('forgot_password.html', c)
 
 

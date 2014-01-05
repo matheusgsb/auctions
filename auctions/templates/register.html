@@ -9,12 +9,14 @@
   {% block content %}
     <h1> Registration </h1>
     <form role="form" action="" method="post">
-      {% csrf_token %}
-      {% for field in form %}
-      <div class="form-group contract_form {% if field.errors %}has-error{% endif %}">
-        <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not field.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}" class="form-control font_source_semibold contract_field_width">
-      </div>
-      {% endfor %}
+      <input type="text" name="username" id="id_username"
+      placeholder="{% if not form.username.value %}{{ form.username.label|capfirst }}{% endif %}" value="{% if form.username.value %}{{ form.username.value }}{% endif %}"/><br>
+         <input type="text" name="email" id="id_email"
+      placeholder="{% if not form.email.value %}{{ form.email.label|capfirst }}{% endif %}" value="{% if form.email.value %}{{ form.email.value }}{% endif %}"/><br>
+         <input type="password" name="password1" id="id_password1"
+      placeholder="{% if not form.password1.value %}{{ form.password1.label|capfirst }}{% endif %}" value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"/><br>
+               <input type="password" name="password2" id="id_password2"
+      placeholder="{% if not form.password2.value %}{{ form.password2.label|capfirst }}{% endif %}"/><br>
       <input type="submit" value="Register">
     </form>
   {% endblock %}  
