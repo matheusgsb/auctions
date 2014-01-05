@@ -3,11 +3,12 @@
 	<head lang="en">
 		<meta charset="utf-8">
 		<title>{% block title %} Template {% endblock %}</title>
+
 		{% load staticfiles %}
 			<script src="{% static "js/jquery-1.10.2.min.js" %}">
 			</script>
 		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" media="screen" />
-
+		{% block head %}{% endblock %}
 	</head>
 	<body>
 		<div id="header">

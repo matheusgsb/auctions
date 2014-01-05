@@ -1,22 +1,71 @@
 {% extends "base.html" %}
 {% block title %} Register {% endblock %}
+{% block head %}
+  <script>
+function validateEmail(email) { 
+  // http://stackoverflow.com/a/46181/11236
+  
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+    $(document).ready(function()
+    {
 
+      $("#register").click(function(e)
+      {
+        if($("#id_username").val()==="")
+        {
+          alert("Insert an username");
+          e.preventDefault();
+          return;
+        }
+        if(!validateEmail($("#id_email").val()))
+        {
+          alert("Invalid e-mail");
+          e.preventDefault();
+          return;
+        }
+        if($("#id_password1").val()!=$("#id_password2").val())
+        {
+          alert("The passwords are different");
+          e.preventDefault();
+          return;
+        }
+        if($("#id_password1").val().length >15
+          || $("#id_password2").val().length >15)
+        {
+          alert("Password too long");
+          e.preventDefault();
+          return;
+        }
+        if($("#id_password1").val().length <6
+          || $("#id_password2").val().length <6)
+        {
+          alert("Password too short");
+          e.preventDefault();
+          return;
+        }
+      })
+    });
+  </script>
+{% endblock %}
   {% if register_problem %}
   <p>There was a problem with your registration. Please, try again</p>
   {% if username_in_use %}<p style="color:#ff0000">The username provided is already in use</p>{% endif %}
   {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
   {% endif %}
   {% block content %}
+
     <h1> Registration </h1>
     <form role="form" action="" method="post">
-      <input type="text" name="username" id="id_username"
-      placeholder="{% if not form.username.value %}{{ form.username.label|capfirst }}{% endif %}" value="{% if form.username.value %}{{ form.username.value }}{% endif %}"/><br>
-         <input type="text" name="email" id="id_email"
-      placeholder="{% if not form.email.value %}{{ form.email.label|capfirst }}{% endif %}" value="{% if form.email.value %}{{ form.email.value }}{% endif %}"/><br>
-         <input type="password" name="password1" id="id_password1"
-      placeholder="{% if not form.password1.value %}{{ form.password1.label|capfirst }}{% endif %}" value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"/><br>
-               <input type="password" name="password2" id="id_password2"
-      placeholder="{% if not form.password2.value %}{{ form.password2.label|capfirst }}{% endif %}"/><br>
-      <input type="submit" value="Register">
+      {% csrf_token %}
+      {% for field in form %}
+        {% if field.name != "password1" and field.name != "password2" %}
+        <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}"><br>
+        {% else %}
+        <input type="password" maxlength="15" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}"><br>
+        {% endif %}
+      {% endfor %}
+      <input type="submit" id="register" value="Register"/>
     </form>
   {% endblock %}  
