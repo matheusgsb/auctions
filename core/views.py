@@ -55,18 +55,25 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['register_problem'] = False
+    print "a"
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST)
+        form = CustomUserChangeForm(user=request.user, data=request.POST)
+        print "b"
 
         if form.is_valid():
-            form.save(update_user=request.user)
+            print "c"
+
+            form.save()
             return HttpResponseRedirect('/home/')
         else:
+            print "d"
+            print form.errors
+
             c['edit_problem'] = True
-            c['username_in_use'] = 'username' in form.errors.keys()
             c['email_in_use'] = 'email' in form.errors.keys()
     else:
-        form = CustomUserChangeForm()
+        print "e"
+        form = CustomUserChangeForm(user=request.user)
     c['form'] = form
     return render_to_response('edit_profile.html', c)
 
