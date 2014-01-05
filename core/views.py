@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from .utils import *
 from .models import *
 from .forms import *
+from django.core.mail import send_mail
 
 # Create your views here.
 def home(request):
@@ -58,9 +59,17 @@ def edit_profile(request):
     
 
 def forgot_password(request):
-    pass
-        
-
+    c = RequestContext(request)
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/home/')
+    if request.method=='POST':
+        email = request.POST.get('email')
+        try:
+            recover_password(email)
+            c['ok'] = True
+        except:
+            c['error'] = True
+    return render_to_response('forgot_password.html', c)
 
 def auction(request, aid):
     c = RequestContext(request)
