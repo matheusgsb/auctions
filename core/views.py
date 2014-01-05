@@ -55,6 +55,7 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['user'] = request.user
+    pass
     
 
 def forgot_password(request):
@@ -71,10 +72,6 @@ def forgot_password(request):
             # message = "Hello, {0}.\nYou are receiving this message because you have requested your password.\nYou password is {1}"
             # send_mail('Forgot Password', message.format(user.username, user.password))
     return render_to_response('forgot_password.html', c)
-
-
-
-
 
 def auction(request, aid):
     c = RequestContext(request)
