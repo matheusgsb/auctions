@@ -54,7 +54,7 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['user'] = request.user
-    return render_to_response('register.html', c)    
+    return render_to_response('edit_profile.html', c)    
     
 
 def forgot_password(request):
