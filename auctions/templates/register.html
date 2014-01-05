@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block title %} Register {% endblock %}
 
-<head lang="en">
-  <meta charset="utf-8">
-</head>
-
-<body>
   {% if register_problem %}
   <p>There was a problem with your registration. Please, try again</p>
   {% if username_in_use %}<p style="color:#ff0000">The username provided is already in use</p>{% endif %}
   {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
   {% endif %}
-  <p class="titulo3 font_gibson text_color5 right_titulo_align">REGISTRATION</p>
+  {% block content %}
+    <p class="titulo3 font_gibson text_color5 right_titulo_align">REGISTRATION</p>
     <form role="form" action="" method="post">
       {% csrf_token %}
       {% for field in form %}
@@ -21,6 +17,4 @@
       {% endfor %}
       <input type="submit" value="REGISTER">
     </form>
-  </div>
-</body>
-</html>
+  {% endblock %}
