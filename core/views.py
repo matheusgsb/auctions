@@ -62,6 +62,7 @@ def forgot_password(request):
     pass    
 
 
+
 def auction(request, aid):
     c = RequestContext(request)
     auction = Auction.objects.get(id=aid)
