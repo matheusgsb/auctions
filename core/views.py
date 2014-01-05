@@ -57,8 +57,9 @@ def edit_profile(request):
     c['register_problem'] = False
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST)
+
         if form.is_valid():
-            form.save(request.user)
+            form.save(update_user=request.user)
             return HttpResponseRedirect('/home/')
         else:
             c['edit_problem'] = True

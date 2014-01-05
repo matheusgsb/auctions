@@ -37,7 +37,7 @@ class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ( 'email',)
-        exclude = []
+       
 
     def clean_password(self):
         #return self.initial['password']
@@ -48,4 +48,4 @@ class CustomUserChangeForm(forms.ModelForm):
         update_user.set_password(self.cleaned_data.get("password"))
         if commit:
             update_user.save()
-        return user
+        return update_user
