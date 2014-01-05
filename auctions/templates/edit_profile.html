@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} Edit Profile {% endblock %}
+
+  {% if register_problem %}
+  <p>There was a problem with your registration. Please, try again</p>
+  {% if username_in_use %}<p style="color:#ff0000">The username provided is already in use</p>{% endif %}
+  {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
+  {% endif %}
+  {% block content %}
+    <h1> Edit Profile </h1>
+    <form role="form" action="" method="post">
+      {% csrf_token %}
+      {% for field in form %}
+
+      <div class="form-group contract_form {% if field.errors %}has-error{% endif %}">
+        {% if field.name == "password" or field.name == "confirm_password"%}
+
+          <input type="password" id="id_{{ field.name }}" placeholder="{% if not field.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}" class="form-control font_source_semibold contract_field_width">
+
+        {% else %}
+
+          <input type="text" id="id_{{ field.name }}" placeholder="{% if not field.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}" class="form-control font_source_semibold contract_field_width">
+
+        {% endif %}
+
+
+      </div>
+      {% endfor %}
+      <input type="submit" value="Change">
+    </form>
+  {% endblock %}  
