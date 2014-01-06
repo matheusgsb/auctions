@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} Category - {% if invalid_cat %} Invalid {% else %} {{cat_name}} {% endif %} {% endblock %}
+{% block content %}
+
+  <!-- FRONT-END people, apply styles and beauty to this page!-->
+
+  <h1> Category - {% if invalid_cat %} Invalid {% else %} {{cat_name}} {% endif %} </h1>
+
+  {% if invalid_cat %} <p>You have requested an invalid category! Try clicking on the links in the menu</p>
+  {% else %}
+
+    <table id="products_table">
+      <tr>
+        {% if num_auctions == 0 %} No results found. Try another category.
+        {% else %}
+          {% for auction in auctions %}
+            <td>{{auction.product.title}}</td>
+          {% endfor %}
+        {% endif %}
+      </tr>
+    </table>
+
+  {% endif %}
+    
+{% endblock %}  

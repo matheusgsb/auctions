@@ -11,6 +11,7 @@ from .utils import *
 from .models import *
 from .forms import *
 from django.core.mail import send_mail
+import datetime
 
 # Create your views here.
 def home(request):
@@ -28,6 +29,21 @@ def login(request):
 @login_required
 def logout(request):
     pass
+
+def category(request, cat):
+    categories = {'AUDIO': 'Audio & Stereo', 'BABY': 'Baby & Kids Stuff', 'MEDIA': 'CDs, DVDs, Games & Books', 'FASH': 'Clothes, Footwear & Accessories', 'TECH': 'Computers & Software', 'HOME': 'Home & Garden', 'MUSIC': 'Music & Instruments', 'OFFIC': 'Office Furniture & Equipment', 'PHONE': 'Phones, Mobile Phones & Telecoms', 'SPORT': 'Sports, Leisure & Travel', 'SCRNS': 'TV, DVD & Cameras', 'GAMES': 'Video Games & Consoles', 'NA': 'Other'}
+    c = RequestContext(request)
+    c['products_line'] = 4 #sets the number of products per line to 4
+    if not cat.upper() in categories.keys():
+        c['invalid_cat'] = True
+        return render_to_response('category.html', c)
+    c['cat_name'] = categories[cat.upper()]
+    auctions = Auction.objects.filter(date_end__gte=datetime.date.today())
+    auctions = [auction for auction in auctions if auction.product.category == cat.upper()] #it is necessary to put the category in upper case
+    c['num_auctions'] = len(auctions) #sets the number of auctions
+    c['auctions'] = auctions
+    return render_to_response('category.html', c)
+
 
 @user_passes_test(lambda u: u.is_anonymous)
 def register(request):
