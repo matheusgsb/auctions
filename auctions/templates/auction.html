@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} {% if invalid_auction %} Invalid Auction {% else %} Auction for {{auction.product.title}} {% endif %} {% endblock %}
+{% block content %}
+
+{% if invalid_auction %}
+<h1>Invalid Auction</h1>
+<p>You are trying to view an invalid auction. Try another one.</p>
+{% else %}
+
+<h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
+
+<table id="auction_info">
+  <tr><td>This auction began at:</td><td>{{auction.date_begin}}</td></tr>
+  <tr><td>This auction will end at:</td><td>{{auction.date_end}}</td></tr>
+  <tr><td>
+</table>
+
+{% endif %}
+    
+{% endblock %}  

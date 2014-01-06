@@ -147,6 +147,12 @@ class Auction(models.Model):
             else:
                 return w_bid.value
 
+    def get_type_name(self):
+        for key, value in self.TYPE:
+            if key == self.auction_type:
+                return value
+        return ''
+
     def winner(self):
         w_bid = self.winning_bid()
         if w_bid == None:

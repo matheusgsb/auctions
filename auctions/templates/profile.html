@@ -18,10 +18,9 @@
     <table id="auction">
       <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
       <tr><td><b>End date:</b></td><td>{{auction.date_end}}</td></tr>
-      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
       <tr><td><b>Product:</b></td><td>{{auction.product.title}}</td></tr>
-      <tr><td><b>Auction type:</b></td><td>{{auction.auction_type}}</td></tr>
-      <tr><td><b>Start price:</b></td><td>{{auction.start_price}}</td></tr>
+      <tr><td><b>Auction type:</b></td><td>{{auction.get_type_name}}</td></tr>
+      <tr><td><b>Start price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
       {% if auction.finished %}
         <tr><td><b>Sold to:</b></td><td>{{ auction.winner.username }}</td></tr>
         <tr><td><b>Sold for:</b></td><td>&pound;{{ auction.winning_value }}</td></tr>
@@ -41,10 +40,9 @@
     <table id="auction">
       <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
       <tr><td><b>End date:</b></td><td>{{auction.date_end}}</td></tr>
-      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
       <tr><td><b>Product:</b></td><td>{{auction.product.title}}</td></tr>
-      <tr><td><b>Auction type:</b></td><td>{{auction.auction_type}}</td></tr>
-      <tr><td><b>Start price:</b></td><td>{{auction.start_price}}</td></tr>
+      <tr><td><b>Auction type:</b></td><td>{{auction.get_type_name}}</td></tr>
+      <tr><td><b>Start price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
       <tr><td><b>Sold by:</b></td><td>{{auction.auctioneer}}</td></tr>
       <tr><td><b>Sold for:</b></td><td>&pound;{{ auction.winning_value }}</td></tr>
     </table>

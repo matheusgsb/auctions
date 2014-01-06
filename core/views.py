@@ -116,8 +116,11 @@ def forgot_password(request):
 
 def auction(request, aid):
     c = RequestContext(request)
-    auction = Auction.objects.get(id=aid)
-    c['auction'] = auction
+    try:
+        auction = Auction.objects.get(id=aid)
+        c['auction'] = auction
+    except:
+        c['invalid_auction'] = True
     return render_to_response('auction.html', c)
 
 @login_required
