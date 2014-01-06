@@ -1,4 +1,5 @@
 import datetime
+import pytz
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -110,6 +111,11 @@ class Auction(models.Model):
 
     def __unicode__(self):
         return str(self.id)
+
+    def finished(self):
+        if self.date_end < pytz.UTC.localize(datetime.datetime.now()):
+            return True
+        return False
 
     def winning_bid(self):
         bids = Bid.objects.filter(auction=self.id)
