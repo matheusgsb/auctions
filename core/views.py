@@ -92,3 +92,7 @@ def auction(request, aid):
     auction = Auction.objects.get(id=aid)
     c['auction'] = auction
     return render_to_response('auction.html', c)
+
+def create_auction(request):
+    c = RequestContext(request)
+    return render_to_response('create_auction.html', c)
