@@ -106,14 +106,13 @@ class AuctionCreationForm(forms.ModelForm):
         super(AuctionCreationForm, self).__init__(*args, **kwargs)
         self._user = user
 
-        self.fields['min_price'].required = False
+        self.fields['start_price'].required = False
 
-    def clean_min_price(self):
-        if self.cleaned_data.get('auction_type') == 'DUTCH':
-            min_price = self.cleaned_data.get('min_price')
-        else:
-            min_price = self.cleaned_data.get('start_price')
-        return min_price
+    def clean_start_price(self):
+        start_price = self.cleaned_data.get('start_price')
+        if not start_price:
+            start_price = 0.01
+        return start_price
 
     def save(self, commit=True):
         product = Product(
@@ -124,8 +123,7 @@ class AuctionCreationForm(forms.ModelForm):
         auction = Auction(
                 auctioneer=self._user, date_end=self.cleaned_data.get('date_end'),
                 auction_type=self.cleaned_data.get('auction_type'), 
-                start_price=self.cleaned_data.get('start_price'),
-                min_price=self.cleaned_data.get('min_price')
+                start_price=self.cleaned_data.get('start_price')
             )
 
         if commit:
