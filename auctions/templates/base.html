@@ -28,7 +28,7 @@
 					</td>
 					<td id="user" style="color:#ffffff">
 						{% if user.is_authenticated %}
-						<p style="font-size: 10px">Logged in as {{user.username}}<br />
+						<p style="font-size: 10px">Logged in as <a href="/profile/" style="color:#ffffff">{{user.username}}</a><br />
 						<a href="/logout/" alt="Log out"><button id="logout_button" style="font-size: 10px">Log Out</button></a></p>
 						{% else %}
 						<form id="login_form" method="post" action="/login/">

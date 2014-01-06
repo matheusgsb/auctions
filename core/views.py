@@ -70,7 +70,15 @@ def register(request):
 
 @login_required
 def profile(request):
-    pass
+    c = RequestContext(request)
+    auctions_created = Auction.objects.filter(auctioneer=request.user).order_by('-date_begin')
+    auctions_won = Auction.objects.filter(date_end__lt=datetime.datetime.now())
+    auctions_won = [auction for auction in auctions_won if auction.winner() == request.user]
+    c['auctions_created'] = auctions_created
+    c['num_auct_created'] = len(auctions_created)
+    c['auctions_won'] = auctions_won
+    c['num_auct_won'] = len(auctions_won)
+    return render_to_response('profile.html', c)
 
 @login_required
 def edit_profile(request):

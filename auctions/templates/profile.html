@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} {{user.username}}'s Profile {% endblock %}
+{% block content %}
+
+<h1>{{user.username}}'s Profile</h1>
+
+<p><a href="/edit_profile/">Edit profile</a></p>
+
+<p><b>E-mail: </b>{{user.email}}</p>
+
+<h2>Auctions Created</h2>
+<!--List of auctions created by the user goes here !-->
+{% if num_auct_created == 0 %}
+<p>You have never created a auction. Have something to sell? Give it a <a href="/create_auction/">try</a>!</p>
+{% else %}
+<table id="auction_created_list"><tr><td>
+  {% for auction in auctions_created %}
+    <table id="auction">
+      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
+      <tr><td><b>End date:</b></td><td>{{auction.date_end}}</td></tr>
+      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
+      <tr><td><b>Product:</b></td><td>{{auction.product.title}}</td></tr>
+      <tr><td><b>Auction type:</b></td><td>{{auction.auction_type}}</td></tr>
+      <tr><td><b>Start price:</b></td><td>{{auction.start_price}}</td></tr>
+      {% if auction.finished %}
+        <tr><td><b>Sold to:</b></td><td>{{ auction.winner.username }}</td></tr>
+        <tr><td><b>Sold for:</b></td><td>&pound;{{ auction.winning_value }}</td></tr>
+      {% endif %}
+    </table>
+  {% endfor %}
+</td></tr></table>
+{% endif %}
+
+<h2>Auctions Won</h2>
+<!--List of auctions won by the user goes here !-->
+{% if num_auct_won == 0 %}
+<p>You have never won a auction :(<br />AuctionZ team wishes you more luck next time</p>
+{% else %}
+<table id="auction_won_list"><tr><td>
+  {% for auction in auctions_won %}
+    <table id="auction">
+      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
+      <tr><td><b>End date:</b></td><td>{{auction.date_end}}</td></tr>
+      <tr><td><b>Begin date:</b></td><td>{{auction.date_begin}}</td></tr>
+      <tr><td><b>Product:</b></td><td>{{auction.product.title}}</td></tr>
+      <tr><td><b>Auction type:</b></td><td>{{auction.auction_type}}</td></tr>
+      <tr><td><b>Start price:</b></td><td>{{auction.start_price}}</td></tr>
+      <tr><td><b>Sold by:</b></td><td>{{auction.auctioneer}}</td></tr>
+      <tr><td><b>Sold for:</b></td><td>&pound;{{ auction.winning_value }}</td></tr>
+    </table>
+  {% endfor %}
+</td></tr></table>
+{% endif %}
+    
+{% endblock %}  
