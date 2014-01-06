@@ -90,7 +90,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
 class AuctionCreationForm(forms.ModelForm):
     p_category = forms.MultipleChoiceField(label='Product categories',
-        widget=forms.RadioSelect, choices=Product.CATEGORIES)
+        widget=forms.Select, choices=Product.CATEGORIES)
     p_title = forms.CharField(label='Product title', widget=forms.TextInput)
     p_description = forms.CharField(label='Product description', widget=forms.TextInput)
 

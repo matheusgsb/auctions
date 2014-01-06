@@ -4,37 +4,38 @@
 
 {% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static "css/create_auction.css" %}" media="screen" />
-			<script src="{% static "js/create_auction.js" %}">
-			</script>
+		<script src="{% static "js/create_auction.js" %}">
+		</script>
 {% endblock %}
 {% block content %}
+{% csrf_token %}
 	<!-- progressbar -->
 	<ul  id="progressbar">
 		<li class="active">Product Information</li>
 		<li>Auction Information</li>
 		<li>Confirmation</li>
 	</ul><br>
-	<form role="form" action="" method="post">
+	<form role="form" id="auction_form" action="" method="post">
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
 			<tr>
 				<td>Category:
 				</td>
-				<td></td>
+				<td>{{ form.p_category }}</td>
 			</tr>
 			<tr>
 				<td>Title:
 				</td>
 				<td>
-					<input class="editable" name="prod_title" type="text" placeholder="Title"/>
+					<input class="editable" name="p_title" type="text" placeholder="Title"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Description:
 				</td>
 				<td>
-					<input class="editable" name="prod_desc" type="text" placeholder="Description"/>
+					<input class="editable" name="p_description" type="text" placeholder="Description"/>
 				</td>
 			</tr>
 		</table>
@@ -42,7 +43,27 @@
 	</fieldset>
 	<fieldset id="auction_info" style="display:none">
 		<legend>Auction Information</legend>
-		{{form.as_p}}
+		<table>
+	       <tr>
+	         <td>Type:
+	         </td>
+	         <td> {{ form.auction_type }}</td>
+	       </tr>
+	       <tr>
+	         <td>End Date:
+	         </td>
+	         <td>
+	           <input class="editable" name="date_end" type="text" placeholder="End Date"/> DD/MM/YY HH:MM:SS
+	         </td>
+	       </tr>
+	       <tr>
+	         <td>Starting Price:
+	         </td>
+	         <td>
+	           <input class="editable" name="start_price" type="text" placeholder="Starting Price"/>
+	         </td>
+	       </tr>
+	     </table>
 		<a id="previous1" href="#">Previous</a> 
 		<a id="next2" href="#">Next</a>
 	</fieldset>
@@ -52,17 +73,17 @@
 			<tr>
 				<td>Product Category:
 				</td>
-				<td  id="prod_cat"></td>
+				<td  id="p_category"></td>
 			</tr>
 			<tr>
 				<td>Product Title:
 				</td>
-				<td id="prod_title"></td>
+				<td id="p_title"></td>
 			</tr>
 			<tr>
 				<td>Product Description:
 				</td>
-				<td id="prod_desc">
+				<td id="p_description">
 				</td>
 			</tr>
 			<tr>
@@ -74,7 +95,7 @@
 			<tr>
 				<td>Auction End Date:
 				</td>
-				<td id="{{ form.date_end.name }}">
+				<td id="date_end">
 				</td>
 			</tr>
 			<tr>
