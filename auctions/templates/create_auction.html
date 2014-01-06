@@ -8,10 +8,35 @@
 		{
 			$("#"+$(this).attr("name")).html($(this).val());
 		});
+		$("#next1").click(function()
+		{
+			$("#product_info").css("display","none");
+			$("#auction_info").css("display","block");
+		});
+		$("#next2").click(function()
+		{
+			$("#auction_info").css("display","none");
+			$("#confirmation").css("display","block");
+		});
+		$("#previous1").click(function()
+		{
+			$("#auction_info").css("display","none");
+			$("#product_info").css("display","block");
+		});
+		$("#previous2").click(function()
+		{
+			$("#confirmation").css("display","none");
+			$("#auction_info").css("display","block");
+		});
 	});
 </script>
 {% endblock %}
 {% block content %}
+	<ol class="steps">
+	    <li class="step1 current">Product Information</li>
+	    <li class="step2 ">Auction Information</li>
+	    <li class="step3 ">Confirmation</li>
+	</ol><br>
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
@@ -35,6 +60,7 @@
 				</td>
 			</tr>
 		</table>
+		<a id="next1" href="#">Next</a>
 	</fieldset>
 	<fieldset id="auction_info" style="display:none">
 		<legend>Auction Information</legend>
@@ -59,6 +85,8 @@
 				</td>
 			</tr>
 		</table>
+		<a id="previous1" href="#">Previous</a> 
+		<a id="next2" href="#">Next</a>
 	</fieldset>
 	<fieldset id="confirmation" style="display:none">
 		<legend>Confirmation</legend>
@@ -96,5 +124,7 @@
 				<td id="auct_start_price"></td>
 			</tr>
 		</table>
+		<a id="previous2" href="#">Previous</a> 
+		<a id="confirm" href="#">Confirm</a> 
 	</fieldset>
 {% endblock %}
