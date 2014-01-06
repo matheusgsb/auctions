@@ -6,17 +6,17 @@
 <h1>Invalid Auction</h1>
 <p>You are trying to view an invalid auction. Try another one.</p>
 {% else %}
-
+<div style="width: 150px;height: 100px;float: left;"></div>
 <h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
 
 <p>This is a {{auction.get_type_name}}</p>
+<p><b>Description: </b>{{auction.product.description}}</p>
 <table id="auction_info">
   <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin}}</td></tr>
   <tr><td><b>This auction will end at:</b></td><td>{{auction.date_end}}</td></tr>
-  <tr><td></td></tr> <!-- This is just to jump a line !-->
+  <tr></tr> <!-- This is just to jump a line !-->
   <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
 </table>
-<p><b>Discription: </b>{{auction.product.description}}</p>
 <table id="auction_info2">
   <tr><td><b>Starting price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
 </table>
@@ -30,10 +30,8 @@
     {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_bid}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
   {% endif %}
   <h2>Bid now!</h2>
-  <form id="bid_now" method="post" action="/make_bid/">
     <input type="text" name="value" value="" placeholder="Value &pound;">
     <input type="submit" name="submit" value="BID">
-  </form>
 {% endif %}
 
 {% endif %}
