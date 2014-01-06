@@ -20,14 +20,16 @@ def home(request):
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
-@user_passes_test(lambda u: u.is_anonymous)
 def login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/home/')
     if request.method=='POST':
         if log_user(request, request.POST['username'], request.POST['password']):
             return HttpResponseRedirect('/home/')
         else:
             request.session['login_failed'] = True
-    return HttpResponseRedirect('/home/')
+    c = RequestContext(request)
+    return render_to_response('login.html', c)
 
 @login_required
 def logout(request):
