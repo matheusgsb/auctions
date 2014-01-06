@@ -1,5 +1,6 @@
 $(document).ready(function()
 	{
+		
 		$("input").addClass("editable");
 		$("select").addClass("editable");
 		$("#confirm").click(function(e)
@@ -29,7 +30,7 @@ $(document).ready(function()
 		});
 		$(".editable").change(function()
 		{
-			$("#"+$(this).attr("name")).html($(this).find(":selected").text());
+			$("#"+$(this).attr("name")).html($(this).val());
 		});
 		$("#next1").click(function()
 		{

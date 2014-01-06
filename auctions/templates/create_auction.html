@@ -4,6 +4,8 @@
 
 {% load staticfiles %}
 		<link rel="stylesheet" type="text/css" href="{% static "css/create_auction.css" %}" media="screen" />
+		<script src="{% static "js/jquery.mask.min.js" %}">
+		</script>
 		<script src="{% static "js/create_auction.js" %}">
 		</script>
 {% endblock %}
@@ -53,14 +55,14 @@
 	         <td>End Date:
 	         </td>
 	         <td>
-	           <input class="editable" name="date_end" type="text" placeholder="End Date"/> DD/MM/YY HH:MM:SS
+	           <input class="editable" id="id_date_end" name="date_end" type="text" placeholder="End Date"/> DD/MM/YYYY HH:MM:SS
 	         </td>
 	       </tr>
 	       <tr>
 	         <td>Starting Price:
 	         </td>
 	         <td>
-	           <input class="editable" name="start_price" type="text" placeholder="Starting Price"/>
+	           <input class="editable" id="id_start_price" name="start_price" type="text" placeholder="Starting Price"/>
 	         </td>
 	       </tr>
 	     </table>
