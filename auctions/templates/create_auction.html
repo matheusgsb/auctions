@@ -1,6 +1,81 @@
 {% extends "base.html" %}
 {% block title %} Create Auction {% endblock %}
 {% block head %}
+<style type="text/css">
+/*custom font*/
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+html {
+	height: 100%;
+	/*Image only BG fallback*/
+	background: url('http://thecodeplayer.com/uploads/media/gs.png');
+	/*background = gradient + image pattern combo*/
+	background: 
+		linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)), 
+		url('http://thecodeplayer.com/uploads/media/gs.png');
+}
+
+/*form styles*/
+#progressbar {
+	width: 400px;
+	margin: 50px auto;
+	text-align: center;
+	position: relative;
+}
+/*progressbar*/
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+}
+#progressbar li {
+	list-style-type: none;
+	color: black;
+	text-transform: uppercase;
+	font-size: 9px;
+	width: 33.33%;
+	float: left;
+	position: relative;
+}
+#progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 10px;
+	color: #333;
+	background: white;
+	border-radius: 3px;
+	margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 2px;
+	background: white;
+	position: absolute;
+	left: -50%;
+	top: 9px;
+	z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #27AE60;
+	color: white;
+}
+
+</style>
 <script>
 	$(document).ready(function()
 	{
@@ -10,21 +85,37 @@
 		});
 		$("#next1").click(function()
 		{
+			next_fs = $(this).parent().next();
+	
+			//activate next step on progressbar using the index of next_fs
+			$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 			$("#product_info").css("display","none");
 			$("#auction_info").css("display","block");
 		});
 		$("#next2").click(function()
 		{
+			next_fs = $(this).parent().next();
+	
+			//activate next step on progressbar using the index of next_fs
+			$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 			$("#auction_info").css("display","none");
 			$("#confirmation").css("display","block");
 		});
 		$("#previous1").click(function()
 		{
+			current_fs = $(this).parent();
+	
+			//de-activate current step on progressbar
+			$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 			$("#auction_info").css("display","none");
 			$("#product_info").css("display","block");
 		});
 		$("#previous2").click(function()
 		{
+			current_fs = $(this).parent();
+	
+			//de-activate current step on progressbar
+			$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 			$("#confirmation").css("display","none");
 			$("#auction_info").css("display","block");
 		});
@@ -32,11 +123,12 @@
 </script>
 {% endblock %}
 {% block content %}
-	<ol class="steps">
-	    <li class="step1 current">Product Information</li>
-	    <li class="step2 ">Auction Information</li>
-	    <li class="step3 ">Confirmation</li>
-	</ol><br>
+	<!-- progressbar -->
+	<ul  id="progressbar">
+		<li class="active">Product Information</li>
+		<li>Auction Information</li>
+		<li>Confirmation</li>
+	</ul><br>
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
