@@ -92,6 +92,9 @@ class AuctionCreationForm(forms.ModelForm):
     class Meta:
         model = Auction
         exclude = ['auctioneer', 'date_begin']
+        widgets = {
+            'date_end': forms.DateField,
+        }
 
     def __init__(self, user=None, *args, **kwargs):
         super(AuctionCreationForm, self).__init__(*args, **kwargs)
@@ -105,7 +108,7 @@ class AuctionCreationForm(forms.ModelForm):
         else:
             min_price = self.cleaned_data.get('start_price')
         return min_price
-        
+
     def save(self, commit=True):
         auction = Auction(
                 auctioneer=self._user, date_end=self.cleaned_data.get('date_end'), 
