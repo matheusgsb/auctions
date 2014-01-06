@@ -1,1 +1,100 @@
 {% extends "base.html" %}
+{% block title %} Create Auction {% endblock %}
+{% block head %}
+<script>
+	$(document).ready(function()
+	{
+		$(".editable").change(function()
+		{
+			$("#"+$(this).attr("name")).html($(this).val());
+		});
+	});
+</script>
+{% endblock %}
+{% block content %}
+	<fieldset id="product_info">
+		<legend>Product Information</legend>
+		<table>
+			<tr>
+				<td>Category:
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Title:
+				</td>
+				<td>
+					<input class="editable" name="prod_title" type="text" placeholder="Title"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Description:
+				</td>
+				<td>
+					<input class="editable" name="prod_desc" type="text" placeholder="Description"/>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	<fieldset id="auction_info" style="display:none">
+		<legend>Auction Information</legend>
+		<table>
+			<tr>
+				<td>Type:
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>End Date:
+				</td>
+				<td>
+					<input class="editable" name="auct_end_date" type="text" placeholder="End Date"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Starting Price:
+				</td>
+				<td>
+					<input class="editable" name="auct_start_price" type="text" placeholder="Starting Price"/>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	<fieldset id="confirmation" style="display:none">
+		<legend>Confirmation</legend>
+		<table>
+			<tr>
+				<td>Product Category:
+				</td>
+				<td  id="prod_cat"></td>
+			</tr>
+			<tr>
+				<td>Product Title:
+				</td>
+				<td id="prod_title"></td>
+			</tr>
+			<tr>
+				<td>Product Description:
+				</td>
+				<td id="prod_desc">
+				</td>
+			</tr>
+			<tr>
+				<td>Auction Type:
+				</td>
+				<td id="auct_type">
+				</td>
+			</tr>
+			<tr>
+				<td>Auction End Date:
+				</td>
+				<td id="auct_end_date">
+				</td>
+			</tr>
+			<tr>
+				<td>Auction Starting Price</td>
+				<td id="auct_start_price"></td>
+			</tr>
+		</table>
+	</fieldset>
+{% endblock %}
