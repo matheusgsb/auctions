@@ -6,11 +6,11 @@
 
 <p>Log in to AuctionZ</p>
 
-<form method="post" action="/login/">
+<p><form method="post" action="/login/">
   {% csrf_token %}
-  <p><input type="text" name="username" value="" placeholder="Username"></p>
-  <p><input type="password" name="password" value="" placeholder="Password"></p>
-  <p><input type="submit" name="submit"></p>
-</form>
+  <input type="text" name="username" value="" placeholder="Username"><br />
+  <input type="password" name="password" value="" placeholder="Password"><br />
+  <input type="submit" name="submit"><a href="/register/">Register</a><br />
+</form></p>
     
 {% endblock %}  
