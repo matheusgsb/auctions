@@ -26,7 +26,19 @@
 							</table>
 						</form>
 					</td>
-					<td id="user">{% block user_login %}&nbsp;{% endblock %}</td>
+					<td id="user" style="color:#ffffff">
+						{% if user.is_authenticated %}
+						<p>Logged in as {{user.username}}<br />
+						<a href="/logout/" alt="Log out">Log out</a></p>
+						{% else %}
+						<form id="login_form" method="post" action="/login/">
+							{% csrf_token %}
+							<input type="text" name="username" value="" placeholder="Username" style="font-size: 10px"><br />
+  							<input type="password" name="password" value="" placeholder="Password" style="font-size: 10px"><br />
+  							<input type="submit" name="submit" value="Log in" style="font-size: 10px"><br />
+  						</form>
+  						{% endif %}
+					</td>
 				</tr> 
 			</table>
 		</div>

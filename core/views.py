@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import HttpResponseRedirect
-from django.contrib.auth import logout
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.templatetags.static import static
@@ -33,7 +33,8 @@ def login(request):
 
 @login_required
 def logout(request):
-    pass
+    auth_logout(request)
+    return HttpResponseRedirect("/home/")
 
 def category(request, cat):
     categories = {'AUDIO': 'Audio & Stereo', 'BABY': 'Baby & Kids Stuff', 'MEDIA': 'CDs, DVDs, Games & Books', 'FASH': 'Clothes, Footwear & Accessories', 'TECH': 'Computers & Software', 'HOME': 'Home & Garden', 'MUSIC': 'Music & Instruments', 'OFFIC': 'Office Furniture & Equipment', 'PHONE': 'Phones, Mobile Phones & Telecoms', 'SPORT': 'Sports, Leisure & Travel', 'SCRNS': 'TV, DVD & Cameras', 'GAMES': 'Video Games & Consoles', 'NA': 'Other'}
