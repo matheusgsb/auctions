@@ -98,7 +98,6 @@ class Auction(models.Model):
     TYPE = (
         ('SEAL', 'Sealed bid auction'),
         ('BRIT', 'British auction'),
-        ('DUTCH', 'Dutch auction'),
         ('VICK', 'Vickrey auction'),
     )
 
@@ -108,8 +107,6 @@ class Auction(models.Model):
     product = models.ForeignKey('Product', verbose_name=u'Product')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
     start_price = models.FloatField(default=0, verbose_name=u'Start price')
-    # min_price used for Dutch auctions
-    min_price = models.FloatField(default=0, verbose_name=u'Minimum price')
 
     def __unicode__(self):
         return str(self.id)
