@@ -73,6 +73,14 @@
 {% block content %}
 	<h1> Welcome! </h1>
 
+  <p>Here is the list of the latest auctions!</p>
+
+  <table id="auction_list"><tr>
+  {% for auction in auctions %}
+    <td>{{ auction.product.title }}</td>
+  {% endfor %}
+  </tr></table>
+
 	<div class="bubbleInfo">
 		<img class="trigger" src="http://mysite.com/path/to/image.png" border="1" width="150" height="150" />
 		<div class="popup">

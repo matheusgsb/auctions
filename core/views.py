@@ -15,7 +15,10 @@ import datetime
 
 # Create your views here.
 def home(request):
-    return HttpResponseRedirect('/admin/')
+    c = RequestContext(request)
+    auctions = Auction.objects.filter(date_end__gte=datetime.date.today()).order_by('-date_begin')[0:20]
+    c['auctions'] = auctions #list of the lastest 20 auctions
+    return render_to_response("index.html", c)
 
 @user_passes_test(lambda u: u.is_anonymous)
 def login(request):
@@ -33,7 +36,6 @@ def logout(request):
 def category(request, cat):
     categories = {'AUDIO': 'Audio & Stereo', 'BABY': 'Baby & Kids Stuff', 'MEDIA': 'CDs, DVDs, Games & Books', 'FASH': 'Clothes, Footwear & Accessories', 'TECH': 'Computers & Software', 'HOME': 'Home & Garden', 'MUSIC': 'Music & Instruments', 'OFFIC': 'Office Furniture & Equipment', 'PHONE': 'Phones, Mobile Phones & Telecoms', 'SPORT': 'Sports, Leisure & Travel', 'SCRNS': 'TV, DVD & Cameras', 'GAMES': 'Video Games & Consoles', 'NA': 'Other'}
     c = RequestContext(request)
-    c['products_line'] = 4 #sets the number of products per line to 4
     if not cat.upper() in categories.keys():
         c['invalid_cat'] = True
         return render_to_response('category.html', c)
