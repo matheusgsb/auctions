@@ -2,13 +2,34 @@ $(document).ready(function()
 	{
 		$("input").addClass("editable");
 		$("select").addClass("editable");
+		$("#confirm").click(function(e)
+		{
+			var flag = true;
+			$("#auction_form").find("input").each(function()
+			{
+				if($(this).val() === "")
+				{	
+					alert($(this).attr("placeholder")+" is obligatory");
+					flag=false;
+					return false;
+				}
+					
+			});
+			if(flag)
+				$("#auction_form").submit();
+			else
+			{
+				return; 
+				e.preventDefault();
+			}
+		});
 		$("select").each(function()
 		{
-			$("#"+$(this).attr("name")).html($(this).val());
+			$("#"+$(this).attr("name")).html($(this).find(":selected").text());
 		});
 		$(".editable").change(function()
 		{
-			$("#"+$(this).attr("name")).html($(this).val());
+			$("#"+$(this).attr("name")).html($(this).find(":selected").text());
 		});
 		$("#next1").click(function()
 		{

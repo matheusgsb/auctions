@@ -1,102 +1,41 @@
 {% extends "base.html" %}
 {% block title %} Create Auction {% endblock %}
 {% block head %}
-<style type="text/css">
-/*custom font*/
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
 
-/*basic reset*/
-* {margin: 0; padding: 0;}
-/*form styles*/
-#progressbar {
-	width: 400px;
-	margin: 50px auto;
-	text-align: center;
-	position: relative;
-}
-/*progressbar*/
-#progressbar {
-	margin-bottom: 30px;
-	overflow: hidden;
-	/*CSS counters to number the steps*/
-	counter-reset: step;
-}
-#progressbar li {
-	list-style-type: none;
-	color: black;
-	text-transform: uppercase;
-	font-size: 9px;
-	width: 33.33%;
-	float: left;
-	position: relative;
-}
-#progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 20px;
-	line-height: 20px;
-	display: block;
-	font-size: 10px;
-	color: #333;
-	background: white;
-	border-radius: 3px;
-	margin: 0 auto 5px auto;
-}
-/*progressbar connectors*/
-#progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: white;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
-}
-#progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none; 
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-#progressbar li.active:before,  #progressbar li.active:after{
-	background: #022D71;
-	color: white;
-}
-
-</style>
 {% load staticfiles %}
-			<script src="{% static "js/create_auction.js" %}">
-			</script>
+		<link rel="stylesheet" type="text/css" href="{% static "css/create_auction.css" %}" media="screen" />
+		<script src="{% static "js/create_auction.js" %}">
+		</script>
 {% endblock %}
 {% block content %}
+{% csrf_token %}
 	<!-- progressbar -->
 	<ul  id="progressbar">
 		<li class="active">Product Information</li>
 		<li>Auction Information</li>
 		<li>Confirmation</li>
 	</ul><br>
-	<form role="form" action="" method="post">
+	<form role="form" id="auction_form" action="" method="post">
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
 			<tr>
 				<td>Category:
 				</td>
-				<td></td>
+				<td>{{ form.p_category }}</td>
 			</tr>
 			<tr>
 				<td>Title:
 				</td>
 				<td>
-					<input class="editable" name="prod_title" type="text" placeholder="Title"/>
+					<input class="editable" name="p_title" type="text" placeholder="Title"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Description:
 				</td>
 				<td>
-					<input class="editable" name="prod_desc" type="text" placeholder="Description"/>
+					<input class="editable" name="p_description" type="text" placeholder="Description"/>
 				</td>
 			</tr>
 		</table>
@@ -104,7 +43,27 @@
 	</fieldset>
 	<fieldset id="auction_info" style="display:none">
 		<legend>Auction Information</legend>
-		{{form.as_p}}
+		<table>
+	       <tr>
+	         <td>Type:
+	         </td>
+	         <td> {{ form.auction_type }}</td>
+	       </tr>
+	       <tr>
+	         <td>End Date:
+	         </td>
+	         <td>
+	           <input class="editable" name="date_end" type="text" placeholder="End Date"/> DD/MM/YY HH:MM:SS
+	         </td>
+	       </tr>
+	       <tr>
+	         <td>Starting Price:
+	         </td>
+	         <td>
+	           <input class="editable" name="start_price" type="text" placeholder="Starting Price"/>
+	         </td>
+	       </tr>
+	     </table>
 		<a id="previous1" href="#">Previous</a> 
 		<a id="next2" href="#">Next</a>
 	</fieldset>
@@ -114,17 +73,17 @@
 			<tr>
 				<td>Product Category:
 				</td>
-				<td  id="prod_cat"></td>
+				<td  id="p_category"></td>
 			</tr>
 			<tr>
 				<td>Product Title:
 				</td>
-				<td id="prod_title"></td>
+				<td id="p_title"></td>
 			</tr>
 			<tr>
 				<td>Product Description:
 				</td>
-				<td id="prod_desc">
+				<td id="p_description">
 				</td>
 			</tr>
 			<tr>
@@ -136,7 +95,7 @@
 			<tr>
 				<td>Auction End Date:
 				</td>
-				<td id="{{ form.date_end.name }}">
+				<td id="date_end">
 				</td>
 			</tr>
 			<tr>
