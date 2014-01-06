@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import CustomUser
+from .models import *
 
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -33,7 +33,7 @@ class CustomUserChangeForm(forms.ModelForm):
     email_address = forms.EmailField(widget = forms.TextInput())
     old_pass = forms.CharField(label='Current password', widget=forms.PasswordInput)
     password1 = forms.CharField(label='New password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='New password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
     class Meta:
         model = CustomUser
@@ -43,14 +43,15 @@ class CustomUserChangeForm(forms.ModelForm):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
         self._user = user
 
+        if user:
+            self.fields['email_address'].label = user.email
+
         for key in self.fields:
             self.fields[key].required = False
 
     def clean_email_address(self):
         email = self.cleaned_data.get('email_address')
         if email:
-            print "olha o email"
-            print email
             if self._user and self._user.email == email:
                 return email
             if CustomUser.objects.filter(email=email).count():
@@ -86,3 +87,34 @@ class CustomUserChangeForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class AuctionCreationForm(forms.ModelForm):
+    class Meta:
+        model = Auction
+        exclude = ['auctioneer', 'date_begin']
+
+    def __init__(self, user=None, *args, **kwargs):
+        super(AuctionCreationForm, self).__init__(*args, **kwargs)
+        self._user = user
+
+        self.fields['min_price'].required = False
+
+    def clean_min_price(self):
+        if self.cleaned_data.get('auction_type') == 'DUTCH':
+            min_price = self.cleaned_data.get('min_price')
+        else:
+            min_price = self.cleaned_data.get('start_price')
+        return min_price
+        
+    def save(self, commit=True):
+        auction = Auction(
+                auctioneer=self._user, date_end=self.cleaned_data.get('date_end'), 
+                product=self.cleaned_data.get('product'),
+                auction_type=self.cleaned_data.get('auction_type'), 
+                start_price=self.cleaned_data.get('start_price'),
+                min_price=self.cleaned_data.get('min_price')
+            )
+
+        if commit:
+            auction.save()
+        return auction

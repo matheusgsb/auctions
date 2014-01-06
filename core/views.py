@@ -55,24 +55,16 @@ def profile(request):
 def edit_profile(request):
     c = RequestContext(request)
     c['register_problem'] = False
-    print "a"
     if request.method == 'POST':
         form = CustomUserChangeForm(user=request.user, data=request.POST)
-        print "b"
 
         if form.is_valid():
-            print "c"
-
             form.save()
             return HttpResponseRedirect('/home/')
         else:
-            print "d"
-            print form.errors
-
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
     else:
-        print "e"
         form = CustomUserChangeForm(user=request.user)
     c['form'] = form
     return render_to_response('edit_profile.html', c)
@@ -80,7 +72,6 @@ def edit_profile(request):
     
 
 def forgot_password(request):
-
     c = RequestContext(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect('/home/')
@@ -100,6 +91,15 @@ def auction(request, aid):
     c['auction'] = auction
     return render_to_response('auction.html', c)
 
+@login_required
 def create_auction(request):
     c = RequestContext(request)
+    if request.method == 'POST':
+        form = AuctionCreationForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            auction = form.save()
+            return HttpResponseRedirect('/auction/%d/' % auction.id)
+    else:
+        form = AuctionCreationForm(user=request.user)
+    c['form'] = form
     return render_to_response('create_auction.html', c)

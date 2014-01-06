@@ -14,7 +14,7 @@
 
       <div class="form-group contract_form {% if field.errors %}has-error{% endif %}">
         
-        {% if field.name == "password1" or field.name == "password2" %}
+        {% if field.name == "password1" or field.name == "password2" or field.name == "old_pass" %}
 
           <input type="password" id="id_{{ field.name }}" name="{{ field.name }}" placeholder="{% if not field.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}" class="form-control font_source_semibold contract_field_width">
 
