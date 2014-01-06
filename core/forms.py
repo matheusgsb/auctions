@@ -30,7 +30,7 @@ class CustomUserCreationForm(forms.ModelForm):
 
 
 class CustomUserChangeForm(forms.ModelForm):
-    email_address = forms.EmailField(widget = forms.TextInput())
+    email_address = forms.EmailField(widget = forms.EmailInput)
     old_pass = forms.CharField(label='Current password', widget=forms.PasswordInput)
     password1 = forms.CharField(label='New password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
@@ -89,11 +89,17 @@ class CustomUserChangeForm(forms.ModelForm):
         return user
 
 class AuctionCreationForm(forms.ModelForm):
+    p_category = forms.MultipleChoiceField(label='Product categories',
+        widget=forms.RadioSelect, choices=Product.CATEGORIES)
+    p_title = forms.CharField(label='Product title', widget=forms.TextInput)
+    p_description = forms.CharField(label='Product description', widget=forms.TextInput)
+
+
     class Meta:
         model = Auction
-        exclude = ['auctioneer', 'date_begin']
+        exclude = ['auctioneer', 'date_begin', 'product']
         widgets = {
-            'date_end': forms.DateField,
+            'date_end': forms.DateTimeInput,
         }
 
     def __init__(self, user=None, *args, **kwargs):
@@ -110,14 +116,20 @@ class AuctionCreationForm(forms.ModelForm):
         return min_price
 
     def save(self, commit=True):
+        product = Product(
+                title=self.cleaned_data.get('p_title'),
+                description=self.cleaned_data.get('p_description'),
+                category=self.cleaned_data.get('p_category')
+            )
         auction = Auction(
-                auctioneer=self._user, date_end=self.cleaned_data.get('date_end'), 
-                product=self.cleaned_data.get('product'),
+                auctioneer=self._user, date_end=self.cleaned_data.get('date_end'),
                 auction_type=self.cleaned_data.get('auction_type'), 
                 start_price=self.cleaned_data.get('start_price'),
                 min_price=self.cleaned_data.get('min_price')
             )
 
         if commit:
+            product.save()
+            setattr(auction, 'product', product)
             auction.save()
         return auction
