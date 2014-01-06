@@ -116,8 +116,11 @@ def forgot_password(request):
 
 def auction(request, aid):
     c = RequestContext(request)
-    auction = Auction.objects.get(id=aid)
-    c['auction'] = auction
+    try:
+        auction = Auction.objects.get(id=aid)
+        c['auction'] = auction
+    except:
+        c['invalid_auction'] = True
     return render_to_response('auction.html', c)
 
 @login_required
@@ -128,6 +131,8 @@ def create_auction(request):
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)
+        else:
+            print form.errors
     else:
         form = AuctionCreationForm(user=request.user)
     c['form'] = form

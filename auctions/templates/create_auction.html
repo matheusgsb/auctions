@@ -8,7 +8,7 @@
 		</script>
 {% endblock %}
 {% block content %}
-{% csrf_token %}
+
 	<!-- progressbar -->
 	<ul  id="progressbar">
 		<li class="active">Product Information</li>
@@ -16,6 +16,7 @@
 		<li>Confirmation</li>
 	</ul><br>
 	<form role="form" id="auction_form" action="" method="post">
+	{% csrf_token %}
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
