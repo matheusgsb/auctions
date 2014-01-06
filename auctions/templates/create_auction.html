@@ -68,6 +68,12 @@
 <script>
 	$(document).ready(function()
 	{
+		$("input").addClass("editable");
+		$("select").addClass("editable");
+		$("select").each(function()
+		{
+			$("#"+$(this).attr("name")).html($(this).val());
+		});
 		$(".editable").change(function()
 		{
 			$("#"+$(this).attr("name")).html($(this).val());
@@ -118,6 +124,10 @@
 		<li>Auction Information</li>
 		<li>Confirmation</li>
 	</ul><br>
+	{% for f in form %}
+		{{ f.name }}
+	{% endfor %}
+	<form role="form" action="" method="post">
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
 		<table>
@@ -149,20 +159,22 @@
 			<tr>
 				<td>Type:
 				</td>
-				<td></td>
+				<td> 
+					{{ form.auction_type }}
+				</td>
 			</tr>
 			<tr>
 				<td>End Date:
 				</td>
 				<td>
-					<input class="editable" name="auct_end_date" type="text" placeholder="End Date"/>
+					{{ form.date_end }}
 				</td>
 			</tr>
 			<tr>
 				<td>Starting Price:
 				</td>
 				<td>
-					<input class="editable" name="auct_start_price" type="text" placeholder="Starting Price"/>
+					{{ form.start_price }}
 				</td>
 			</tr>
 		</table>
@@ -191,21 +203,22 @@
 			<tr>
 				<td>Auction Type:
 				</td>
-				<td id="auct_type">
+				<td id="auction_type">
 				</td>
 			</tr>
 			<tr>
 				<td>Auction End Date:
 				</td>
-				<td id="auct_end_date">
+				<td id="{{ form.date_end.name }}">
 				</td>
 			</tr>
 			<tr>
-				<td>Auction Starting Price</td>
-				<td id="auct_start_price"></td>
+				<td>Auction Starting Price: </td>
+				<td id="start_price"></td>
 			</tr>
 		</table>
 		<a id="previous2" href="#">Previous</a> 
 		<a id="confirm" href="#">Confirm</a> 
 	</fieldset>
+</form>
 {% endblock %}
