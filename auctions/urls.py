@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'core.views.home', name='home'),
+    url(r'^index/$', 'core.views.home', name='home'),
     url(r'^home/$', 'core.views.home', name='home'),
     url(r'^register/$', 'core.views.register', name='register'),
     url(r'^create_auction/$', 'core.views.create_auction', name='create_auction'),
