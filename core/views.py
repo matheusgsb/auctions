@@ -1,5 +1,6 @@
 # encoding:utf-8
 from django.template import RequestContext
+from django.core.exceptions import ValidationError
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as auth_logout
@@ -119,8 +120,20 @@ def auction(request, aid):
     try:
         auction = Auction.objects.get(id=aid)
         c['auction'] = auction
-    except:
+        if request.method == "POST":
+            form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
+            if form.is_valid():
+                form.save()
+            else:
+                c['invalid_bid'] = form.errors
+        else:
+            form = BidCreationForm(user=request.user, auction=auction)
+    except ValidationError as e:
+        c['error'] = "You cannot bid to your own auction"
+    except Exception as e:
         c['invalid_auction'] = True
+        return render_to_response('auction.html', c)
+    c['form'] = form
     return render_to_response('auction.html', c)
 
 @login_required
@@ -131,8 +144,6 @@ def create_auction(request):
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)
-        else:
-            print form.errors
     else:
         form = AuctionCreationForm(user=request.user)
     c['form'] = form

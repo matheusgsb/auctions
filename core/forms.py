@@ -131,3 +131,40 @@ class AuctionCreationForm(forms.ModelForm):
             setattr(auction, 'product', product)
             auction.save()
         return auction
+
+class BidCreationForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = ('value',)
+
+    def __init__(self, user=None, auction=None, *args, **kwargs):
+        super(BidCreationForm, self).__init__(*args, **kwargs)
+        self._user = user
+        self._auction = auction
+
+    def clean_value(self):
+        try:
+            value = float(self.cleaned_data.get('value'))
+            return value
+        except:
+            msg = "Invalid bid value"
+            raise forms.ValidationError(msg)
+
+    def save(self, commit=True):
+        if not self._user.is_authenticated():
+            msg = "User must be logged in to bid"
+            raise forms.ValidationError(msg)
+
+        if self._user == self._auction.auctioneer:
+            msg = "Cannot bid to own auction"
+            raise forms.ValidationError(msg)
+
+        bid = Bid(
+                bidder=self._user, auction=self._auction,
+                value=self.cleaned_data.get('value')
+            )
+
+        if commit:
+            bid.save()
+
+        return bid

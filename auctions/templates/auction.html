@@ -20,6 +20,20 @@
 <h1>Invalid Auction</h1>
 <p>You are trying to view an invalid auction. Try another one.</p>
 {% else %}
+<<<<<<< HEAD
+=======
+
+{% if invalid_bid %}
+<h1>Invalid Bid</h1>
+<p>You have tried to make an invalid bid on this auction</p>
+{% endif %}
+
+{% if error %}
+<h1>Invalid Bid</h1>
+<p>{{error}}</p>
+{% endif %}
+
+>>>>>>> 7ca3cc46096f8f55b48c82dd208ac5feccf66702
 <h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
 
 <p>This is a {{auction.get_type_name}}</p>
@@ -35,17 +49,20 @@
 </table>
 <b>Time remaining:</b><div id="countdown" style="height:45px;width:200px"></div>
 {% if auction.finished %}
+  {% if auction.winner %}
   <table id="selling_info">
     <tr><td><b>Sold for:</b></td><td>{{auction.winning_value}}</td></tr>
     <tr><td><b>Sold to:</b></td><td>{{auction.winner.username}}</td></tr>
   </table>
+  {% else %}
+  <p><b>Not sold</b></p>
+  {% endif %}
 {% else %}
   {% if auction.auction_type != "SEAL" %}
-    {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_bid}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
+    {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_value}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
   {% endif %}
   <h2>Bid now!</h2>
-    <input type="text" name="value" value="" placeholder="Value &pound;">
-    <input type="submit" name="submit" value="BID">
+  		<form id="bid_now" method="post" action="/auction/{{auction.id}}/">{% csrf_token %}{{ form.as_p }}<input type="submit" name="submit" value="Bid"></form>
 {% endif %}
 
 {% endif %}
