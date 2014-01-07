@@ -37,7 +37,7 @@ def search(request):
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
     auctions = Auction.objects.filter()
-    auctions = [auction for auction in auctions if request.POST["term"] in auction.product.title]
+    auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
     c['auctions'] = auctions
     return render_to_response('search.html', c)
 
