@@ -206,4 +206,13 @@ div.out a:hover {
     padding: 5px;
 }
 
+#about a, #about a:active, #about:visited {
+    color: #575757;
+    text-decoration: none;
+}
+
+#about a:hover {
+    color: #022D71;
+}
+
 
