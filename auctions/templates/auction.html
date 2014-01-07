@@ -9,11 +9,32 @@
 
 <h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
 
+<p>This is a {{auction.get_type_name}}</p>
 <table id="auction_info">
-  <tr><td>This auction began at:</td><td>{{auction.date_begin}}</td></tr>
-  <tr><td>This auction will end at:</td><td>{{auction.date_end}}</td></tr>
-  <tr><td>
+  <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin}}</td></tr>
+  <tr><td><b>This auction will end at:</b></td><td>{{auction.date_end}}</td></tr>
+  <tr><td></td></tr> <!-- This is just to jump a line !-->
+  <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
 </table>
+<p><b>Discription: </b>{{auction.product.description}}</p>
+<table id="auction_info2">
+  <tr><td><b>Starting price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
+</table>
+{% if auction.finished %}
+  <table id="selling_info">
+    <tr><td><b>Sold for:</b></td><td>{{auction.winning_value}}</td></tr>
+    <tr><td><b>Sold to:</b></td><td>{{auction.winner.username}}</td></tr>
+  </table>
+{% else %}
+  {% if auction.auction_type != "SEAL" %}
+    {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_bid}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
+  {% endif %}
+  <h2>Bid now!</h2>
+  <form id="bid_now" method="post" action="/make_bid/">
+    <input type="text" name="value" value="" placeholder="Value &pound;">
+    <input type="submit" name="submit" value="BID">
+  </form>
+{% endif %}
 
 {% endif %}
     
