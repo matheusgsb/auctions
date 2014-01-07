@@ -1,62 +1,37 @@
 from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
+from django.contrib.auth.models import User
 from .models import *
 
-
-class CustomUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
 
     class Meta:
-        model = CustomUser
-        fields = ('username', 'email',)
-
-    def clean_password2(self):
-        # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            msg = "Passwords don't match"
-            raise forms.ValidationError(msg)
-        return password2
+        model = User
+        fields = ("username", "email", "password1", "password2")
 
     def save(self, commit=True):
-        # Save the provided password in hashed format
         user = super(CustomUserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user.email = self.cleaned_data["email"]
         if commit:
             user.save()
         return user
 
-
 class CustomUserChangeForm(forms.ModelForm):
-    email_address = forms.EmailField(widget = forms.EmailInput)
     old_pass = forms.CharField(label='Current password', widget=forms.PasswordInput)
     password1 = forms.CharField(label='New password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
     class Meta:
-        model = CustomUser
-        fields = ()
+        model = User
+        fields = ('email',)
 
     def __init__(self, user=None, *args, **kwargs):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
         self._user = user
 
-        if user:
-            self.fields['email_address'].label = user.email
-
         for key in self.fields:
-            self.fields[key].required = False
-
-    def clean_email_address(self):
-        email = self.cleaned_data.get('email_address')
-        if email:
-            if self._user and self._user.email == email:
-                return email
-            if CustomUser.objects.filter(email=email).count():
-                raise forms.ValidationError(u'That email address already exists.')
-        return email       
+            self.fields[key].required = False    
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -67,7 +42,7 @@ class CustomUserChangeForm(forms.ModelForm):
             msg = "Passwords don't match"
             raise forms.ValidationError(msg)
 
-        if not self._user.check_password(old_pass):
+        if old_pass and not self._user.check_password(old_pass):
             msg = "Wrong password"
             raise forms.ValidationError(msg)
 
@@ -77,10 +52,10 @@ class CustomUserChangeForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = self._user
         new_pass = self.cleaned_data.get('password2')
-        email = self.cleaned_data.get('email_address')
+        email = self.cleaned_data.get('email')
 
         if email:
-            setattr(user, 'email', email)
+            user.email = email
         if new_pass:
             user.set_password(new_pass)
 

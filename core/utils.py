@@ -1,5 +1,6 @@
 import pytz
 from .models import *
+from django.contrib.auth.models import User
 from datetime import timedelta
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMultiAlternatives
@@ -42,7 +43,7 @@ def log_user(request, username, password):
 
 # generates new password if user's forgotten it
 def recover_password(email):
-    user = CustomUser.objects.get(email=email)
+    user = User.objects.get(email=email)
     new_pass = randint(100000, 999999)
     reset_password(user=user, password=str(new_pass))
 
