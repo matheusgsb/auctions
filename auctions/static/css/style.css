@@ -126,6 +126,7 @@ body {
 }
 
 #footer {
+    margin-top: 20px;
 	clear: both;
 	height: 80px;
     background-image: linear-gradient(rgb(88,88,88), #C6C6C6 100%);
@@ -137,8 +138,9 @@ body {
 }
 
 #footer p {
-    height: 100%;
-    margin-top: 30px;
+    height: 57%;
+    margin: 0px;
+    padding-top:30px;
     font-size: 12px;
 }
 
@@ -213,6 +215,10 @@ div.out a:hover {
 
 #about a:hover {
     color: #022D71;
+}
+
+#about p {
+    width: 95%;
 }
 
 
