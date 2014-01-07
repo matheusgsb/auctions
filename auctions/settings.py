@@ -32,7 +32,7 @@ DATABASES['default'] =  dj_database_url.config()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'auctionz.herokuapp.com', '*']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/home/'
