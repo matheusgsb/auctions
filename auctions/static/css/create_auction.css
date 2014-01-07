@@ -1,77 +1,24 @@
-/*custom font*/
+/* custom font */
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
 
-/*basic reset*/
-* {margin: 0; padding: 0;}
-/*form styles*/
-#progressbar {
-	width: 400px;
-	margin: 0px auto 20px auto;
-    padding-top: 20px;
-	text-align: center;
-	position: relative;
-}
-/*progressbar*/
-#progressbar {
-	margin-bottom: 30px;
-	overflow: hidden;
-	/*CSS counters to number the steps*/
-	counter-reset: step;
-}
-#progressbar li {
-	list-style-type: none;
-	color: black;
-	text-transform: uppercase;
-	font-size: 9px;
-	width: 33.33%;
-	float: left;
-	position: relative;
-}
-#progressbar li:before {
-	content: counter(step);
-	counter-increment: step;
-	width: 20px;
-	line-height: 20px;
-	display: block;
-	font-size: 10px;
-	color: #333;
-	background: white;
-	border-radius: 3px;
-	margin: 0 auto 5px auto;
-}
-/*progressbar connectors*/
-#progressbar li:after {
-	content: '';
-	width: 100%;
-	height: 2px;
-	background: white;
-	position: absolute;
-	left: -50%;
-	top: 9px;
-	z-index: -1; /*put it behind the numbers*/
-}
-#progressbar li:first-child:after {
-	/*connector not needed before the first step*/
-	content: none; 
-}
-/*marking active/completed steps green*/
-/*The number of the step and the connector before it = green*/
-#progressbar li.active:before,  #progressbar li.active:after{
-	background: #022D71;
-	color: white;
-}
+/* basic reset */
+* { margin: 0; padding: 0; }
 
-#product_info, #auction_info, #confirmation {
-    padding-bottom: 20px;
-    border: 2px dotted #CDCDCD;
-}
+/* form styles */
+#progressbar { width: 400px; margin: 0px auto 20px auto; padding-top: 20px; text-align: center; position: relative; }
 
-#auction_form a, #auction_form a:visited, #auction_form a:active {
-    text-decoration: none;
-    color: #575757;
-    padding-left: 30px;
-}
+/* progressbar */
+#progressbar { margin-bottom: 30px; overflow: hidden; /* CSS counters to number the steps */ counter-reset: step; }
+#progressbar li { list-style-type: none; color: black; text-transform: uppercase; font-size: 9px; width: 33.33%; float: left; position: relative; }
+#progressbar li:before { content: counter(step); counter-increment: step; width: 20px; line-height: 20px; display: block; font-size: 10px; color: #333; background: white; border-radius: 3px; margin: 0 auto 5px auto; }
 
-#auction_form a:hover {
-    color: #022D71;
-}
+/* progressbar connectors */
+#progressbar li:after { content: ''; width: 100%; height: 2px; background: white; position: absolute; left: -50%; top: 9px; z-index: -1; /* put it behind the numbers */ }
+#progressbar li:first-child:after { /*connector not needed before the first step*/ content: none; }
+
+/* marking active/completed steps green */
+/* The number of the step and the connector before it = green */
+#progressbar li.active:before,  #progressbar li.active:after{ background: #022D71; color: white; }
+#product_info, #auction_info, #confirmation { padding-bottom: 20px; border: 2px dotted #CDCDCD; }
+#auction_form a, #auction_form a:visited, #auction_form a:active { text-decoration: none; color: #575757; padding-left: 30px; }
+#auction_form a:hover { color: #022D71; }

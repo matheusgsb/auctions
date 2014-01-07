@@ -3,59 +3,35 @@
 	<head lang="en">
 		<link rel="shortcut icon" href="http://www.iconj.com/ico/p/3/p3sqc11sxs.ico" type="image/x-icon" />
 		<meta charset="utf-8">
-		<title>{% block title %} Template {% endblock %}</title>
-		{% load staticfiles %} <script src="{% static "js/jquery-1.10.2.min.js" %}"> </script>
-		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" media="screen" />
-		{% block head %}{% endblock %}
-	</head>
+        <title>{% block title %} Template {% endblock %}</title>
+        {% load staticfiles %} <script src="{% static "js/jquery-1.10.2.min.js" %}"> </script>
+        <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" media="screen" />
+        {% block head %}{% endblock %}
+    </head>
 	<body>
 		<div id="header">
 			<table border="0" id="header-table" class="center">
-				<tr height="60"> <td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-12px;" /></a></center></td> <td id="search"> <form method="post" action="/search/">{% csrf_token %}
-                        <table style="width: 100%;">
-                            <tr>
-                                <td><input placeholder="Search" class="input-text" type="text" id="term" name="term" style="width:100%;"/></td> <td width="50" align="left"><input type="submit" value="Go" style="float:right;"/> </td>
-                            </tr> <tr><td>&nbsp;</td></tr></table></form></td>
-					<td id="user" style="color:#ffffff">
-                        <center>
-						{% if user.is_authenticated %}
-						<p style="font-size: 12px;">You're logged in as <a href="/profile/" style="color:#ffffff">{{user.username}}</a>
-						&nbsp;&nbsp;&nbsp; <a href="/logout/" alt="Log out"><button id="logout_button" style="font-size: 12px">Log Out</button></a></p>
+				<tr height="60">
+                    <td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-12px;" /></a></center></td>
+                    <td id="search"> <form method="post" action="/search/">{% csrf_token %} <table style="width: 100%;"> <tr> <td><input placeholder="Search" class="input-text" type="text" id="term" name="term" style="width:100%;"/></td> <td width="50" align="left"><input type="submit" value="Go" style="float:right;"/> </td> </tr> <tr><td>&nbsp;</td></tr></table></form></td>
+					<td id="user" style="color:#ffffff"> <center>
+						{% if user.is_authenticated %} <p style="font-size: 12px;">You're logged in as <a href="/profile/" style="color:#ffffff">{{user.username}}</a> &nbsp;&nbsp;&nbsp; <a href="/logout/" alt="Log out"><button id="logout_button" style="font-size: 12px">Log Out</button></a></p>
 						{% else %}
-						<form id="login_form" method="post" action="/login/">
-							{% csrf_token %}
-							<table>
-                                <tr>
-                                    <td><input class="input-text" type="text" name="username" value="" placeholder="Username" style="font-size: 10px"></td>
-                                    <td><input class="input-text" type="password" name="password" value="" placeholder="Password" style="font-size: 10px"></td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td align="right"><input type="submit" name="submit" value="Log in" style="font-size: 12px">
-                                        <a href="/register/" style="color:#ffffff">Register</a><br /></td>
-                                </tr>
+                            <form id="login_form" method="post" action="/login/"> {% csrf_token %}
+                                <table> <tr> <td><input class="input-text" type="text" name="username" value="" placeholder="Username" style="font-size: 10px"></td> <td><input class="input-text" type="password" name="password" value="" placeholder="Password" style="font-size: 10px"></td> </tr> <tr> <td>&nbsp;</td> <td align="right"><input type="submit" name="submit" value="Log in" style="font-size: 12px"> <a href="/register/" style="color:#ffffff">Register</a><br /></td> </tr>
                                 </table>
-  							
-  						</form>
-  						{% endif %}
-                        </center>
-					</td>
-				</tr> 
+                            </form>
+  						{% endif %} </center></td>
+                </tr>
 			</table>
 		</div>
 		<div id="navbar">
 			<table width="600" border="0" style="padding-top: 5px; font-size:14px;" class="center">
 				<tr height="25" >
-					<td width="20%"><center><a href="/home/">Home</a></center></td>
-					<td width="20%"><center><a href="/about/">About Us</a></center></td>
-                        {% if user.is_authenticated %}
-                            <td width="20%"><center><a href="/profile/">Profile</a></center></td>
-                            <td width="20%"><center><a href="/create_auction/">Create Auction</a></center></td>
-                        {% else %}
-                            <td width="20%"><center><a href="/login/">Login</a></center></td>
-                            <td width="20%"><center><a href="/register/">Register</a></center></td>
-                        {% endif %}
-					<td width="20%"><center><a href="/contact/">Contact</a></center></td>
+					<td width="20%"><center><a href="/home/">Home</a></center></td> <td width="20%"><center><a href="/about/">About Us</a></center></td>
+                    {% if user.is_authenticated %} <td width="20%"><center><a href="/profile/">Profile</a></center></td> <td width="20%"><center><a href="/create_auction/">Create Auction</a></center></td>
+                    {% else %} <td width="20%"><center><a href="/login/">Login</a></center></td> <td width="20%"><center><a href="/register/">Register</a></center></td>
+                    {% endif %} <td width="20%"><center><a href="/contact/">Contact</a></center></td>
 				</tr>
 			</table>
 		</div>
@@ -63,23 +39,11 @@
 			<div id="side-bar">
 				<h1>Categories</h1>
 				<ul id="categories">
-					<li> <a href="/category/audio/"> Audio & Stereo </a> </li> 
-					<li> <a href="/category/baby/"> Baby & Kids Stuff </a> </li> 
-					<li> <a href="/category/media/"> CDs, DVDs, Games & Books </a> </li> 
-					<li> <a href="/category/fash/"> Clothes, Footwear & Accessories </a> </li> 
-					<li> <a href="/category/tech/"> Computers & Software </a> </li> 
-					<li> <a href="/category/home/"> Home & Garden </a> </li> 
-					<li> <a href="/category/music/"> Music & Instruments </a> </li> 
-					<li> <a href="/category/offic/"> Office Furniture & Equipment </a> </li> 
-					<li> <a href="/category/phone/"> Phones, Mobile Phones & Telecom </a> </li> 
-					<li> <a href="/category/sport/"> Sports, Leisure & Travel </a> </li> 
-					<li> <a href="/category/scrns/"> TV, DVD & Cameras </a> </li> 
-					<li> <a href="/category/games/"> Video Games & Consoles </a> </li> 
-					<li> <a href="/category/na/"> Other </a> </li>
-				</ul>
-			</div>
-			<div id="content"> {% block content %} {% endblock %} </div>
-		</div>
-		<div id="footer">{% block footer %} <p align="center"> <a href="/home/">Home</a> &nbsp;&nbsp;<a href="/about/">About Us</a> &nbsp;&nbsp; <a href="/contact/">Contact</a> &nbsp;&nbsp; | &nbsp;&nbsp; Copyright © 2013-2014 AuctionZ Corporation. All Rights Reserved. </p> {% endblock %}</div>
-	</body>
+					<li> <a href="/category/audio/"> Audio & Stereo </a> </li> <li> <a href="/category/baby/"> Baby & Kids Stuff </a> </li> <li> <a href="/category/media/"> CDs, DVDs, Games & Books </a> </li> <li> <a href="/category/fash/"> Clothes, Footwear & Accessories </a> </li> <li> <a href="/category/tech/"> Computers & Software </a> </li> <li> <a href="/category/home/"> Home & Garden </a> </li> <li> <a href="/category/music/"> Music & Instruments </a> </li> <li> <a href="/category/offic/"> Office Furniture & Equipment </a> </li> <li> <a href="/category/phone/"> Phones, Mobile Phones & Telecom </a> </li> <li> <a href="/category/sport/"> Sports, Leisure & Travel </a> </li> <li> <a href="/category/scrns/"> TV, DVD & Cameras </a> </li> <li> <a href="/category/games/"> Video Games & Consoles </a> </li> <li> <a href="/category/na/"> Other </a> </li>
+                </ul>
+            </div>
+            <div id="content"> {% block content %} {% endblock %} </div>
+        </div>
+        <div id="footer">{% block footer %} <p align="center"> <a href="/home/">Home</a> &nbsp;&nbsp;<a href="/about/">About Us</a> &nbsp;&nbsp; <a href="/contact/">Contact</a> &nbsp;&nbsp; | &nbsp;&nbsp; Copyright © 2013-2014 AuctionZ Corporation. All Rights Reserved. </p> {% endblock %}</div>
+    </body>
 </html>
