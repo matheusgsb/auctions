@@ -1,7 +1,41 @@
 {% extends "base.html" %}
 {% block title %} {% if invalid_auction %} Invalid Auction {% else %} Auction for {{auction.product.title}} {% endif %} {% endblock %}
-{% block content %}
+{% block head %}
 
+{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static "css/jquery.countdown.css" %}" media="screen" />
+		<script src="{% static "js/jquery.countdown.min.js" %}">
+		</script>
+		<script>
+			$(document).ready(function()
+			{
+				var date = new Date($("#date_end").html().replace(".","")); 
+				$('#countdown').countdown({until: date}); 
+				$("#bid").click(function(e)
+				{
+					var a = confirm("You're about to place a bid of "+$("#id_value").val()+" pounds. Are you sure?");
+					if(a)
+					{
+						var form = $(this).parent();
+						$.post( "/auction/"+$("#auction_id").val()+"/", 
+							form.serialize(),
+							function( data ) {
+	  						$("#success").html(data);
+	  						
+						}).fail(function(){
+							$("#success").html("Your bid could not be placed, try again. :(");
+						});
+					}
+					else
+						$("#success").html("Bid cancelled.");
+					e.preventDefault();
+				});
+			});
+
+		</script>
+{% endblock %}
+{% block content %}
+<input type="hidden" id="auction_id" value="{{auction.id}}"/>
 {% if invalid_auction %}
 <h1>Invalid Auction</h1>
 <p>You are trying to view an invalid auction. Try another one.</p>
@@ -16,20 +50,21 @@
 <h1>Invalid Bid</h1>
 <p>{{error}}</p>
 {% endif %}
-
+<div style="float:left;width:300px;height:150px;">IMAGE	</div>
 <h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
 
 <p>This is a {{auction.get_type_name}}</p>
+<p><b>Description: </b>{{auction.product.description}}</p>
 <table id="auction_info">
   <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin}}</td></tr>
-  <tr><td><b>This auction will end at:</b></td><td>{{auction.date_end}}</td></tr>
-  <tr><td></td></tr> <!-- This is just to jump a line !-->
+  <tr><td><b>This auction will end at:</b></td><td id="date_end">{{auction.date_end}}</td></tr>
+  <tr></tr> <!-- This is just to jump a line !-->
   <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
 </table>
-<p><b>Discription: </b>{{auction.product.description}}</p>
 <table id="auction_info2">
   <tr><td><b>Starting price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
 </table>
+<b>Time remaining:</b><div id="countdown" style="height:45px;width:200px"></div>
 {% if auction.finished %}
   {% if auction.winner %}
   <table id="selling_info">
@@ -44,7 +79,12 @@
     {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_value}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
   {% endif %}
   <h2>Bid now!</h2>
-  <form id="bid_now" method="post" action="/auction/{{auction.id}}/">{% csrf_token %}{{ form.as_p }}<input type="submit" name="submit" value="Bid"></form>
+  <form method="POST" action="">
+  	{% csrf_token %}
+  		{{ form.as_p }}
+  		<input id="bid" type="submit" name="submit" value="Bid">
+  		<div id="success"></div>
+  </form>
 {% endif %}
 
 {% endif %}
