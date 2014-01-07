@@ -9,7 +9,7 @@
 		<script>
 			$(document).ready(function()
 			{
-				var date = new Date($("#date_end").html().replace(".","")); 
+				var date = new Date($("#date_end").html());
 				$('#countdown').countdown({until: date}); 
 				$("#bid").click(function(e)
 				{
@@ -56,8 +56,8 @@
 <p>This is a {{auction.get_type_name}}</p>
 <p><b>Description: </b>{{auction.product.description}}</p>
 <table id="auction_info">
-  <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin}}</td></tr>
-  <tr><td><b>This auction will end at:</b></td><td id="date_end">{{auction.date_end}}</td></tr>
+    <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin|date:"d/m/y H:i:s"}}</td></tr>
+    <tr><td><b>This auction will end at:</b></td><td id="date_end">{{auction.date_end|date:"d/m/y H:i:s"}}</td></tr>
   <tr></tr> <!-- This is just to jump a line !-->
   <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
 </table>
