@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^auction/(?P<aid>\d+)/$', 'core.views.auction', name='auction'),
     url(r'^category/(?P<cat>\w+)/$', 'core.views.category', name='category'),
     url(r'^about/$', 'core.views.about', name='about'),
+    url(r'^contact/$', 'core.views.contact', name='contact'),
 
 )
