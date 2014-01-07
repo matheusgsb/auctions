@@ -151,3 +151,7 @@ def create_auction(request):
         form = AuctionCreationForm(user=request.user)
     c['form'] = form
     return render_to_response('create_auction.html', c)
+
+def about(request):
+    c = RequestContext(request)
+    return render_to_response("about.html", c)
