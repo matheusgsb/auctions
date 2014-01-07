@@ -2,6 +2,7 @@ body {
 	margin: 0px 0px;
 	word-wrap: break-word;
 	font: 14px Helvetica,Arial,Tahoma,Verdana,Sans-serif;
+    color: #575757;
 	background-color: #E5E5E5;
 }
 
@@ -126,4 +127,42 @@ body {
 .center {
 	margin-right: auto;
 	margin-left: auto;
-} 
+}
+
+div.out {
+    width: 190px;
+    height: 250px;
+    margin: 10px;
+    background-color: #DBDBDB;
+    float: left;
+    word-break: break-all;
+    border-bottom: 3px solid #fff;
+}
+div.out img {
+    width: 150px;
+    height: 150px;
+    background-color: #fff;
+    margin: 20px 20px 10px 20px;
+}
+div.out p {
+    margin: 0px 10px;
+}
+div.hidden {
+    background-color: #DBDBDB;
+    display: none;
+    width:170px;
+    height: 80px;
+    margin-top: 0px;
+    z-index:1000;
+    border-bottom: 3px solid #022D71;
+    position: absolute;
+    padding: 0px 10px;
+}
+div.out a, div.out a:visited, div.out a:active {
+    text-decoration: none;
+    color: #575757;
+}
+div.out a:hover {
+    color: #022D71;
+}
+
