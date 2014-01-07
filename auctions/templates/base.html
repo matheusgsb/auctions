@@ -4,29 +4,18 @@
 		<link rel="shortcut icon" href="http://www.iconj.com/ico/p/3/p3sqc11sxs.ico" type="image/x-icon" />
 		<meta charset="utf-8">
 		<title>{% block title %} Template {% endblock %}</title>
-
-		{% load staticfiles %}
-			<script src="{% static "js/jquery-1.10.2.min.js" %}">
-			</script>
+		{% load staticfiles %} <script src="{% static "js/jquery-1.10.2.min.js" %}"> </script>
 		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" media="screen" />
 		{% block head %}{% endblock %}
 	</head>
 	<body>
 		<div id="header">
 			<table border="0" id="header-table" class="center">
-				<tr height="60">
-					<td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-12px;" /></a></center></td>
-					<td id="search">
-						<form method="post" action="/search/">{% csrf_token %}
-							<table style="width: 100%;">
-								<tr>
-									<td><input placeholder="Search" class="input-text" type="text" id="term" name="term" style="width:100%;"/></td>
-									<td width="50" align="left"><input type="submit" value="Go" style="float:right;"/> </td>
-								</tr>
-                                <tr><td>&nbsp;</td></tr>
-							</table>
-						</form>
-					</td>
+				<tr height="60"> <td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-12px;" /></a></center></td> <td id="search"> <form method="post" action="/search/">{% csrf_token %}
+                        <table style="width: 100%;">
+                            <tr>
+                                <td><input placeholder="Search" class="input-text" type="text" id="term" name="term" style="width:100%;"/></td> <td width="50" align="left"><input type="submit" value="Go" style="float:right;"/> </td>
+                            </tr> <tr><td>&nbsp;</td></tr></table></form></td>
 					<td id="user" style="color:#ffffff">
                         <center>
 						{% if user.is_authenticated %}
