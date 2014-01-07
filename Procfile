@@ -1,1 +1,1 @@
-web: python manage.py collectstatic --noinput; gunicorn --pythonpath auctions auctions.wsgi
+web: gunicorn auctions.wsgi
