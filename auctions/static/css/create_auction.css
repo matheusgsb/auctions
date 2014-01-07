@@ -6,7 +6,8 @@
 /*form styles*/
 #progressbar {
 	width: 400px;
-	margin: 50px auto;
+	margin: 0px auto 20px auto;
+    padding-top: 20px;
 	text-align: center;
 	position: relative;
 }
@@ -58,4 +59,19 @@
 #progressbar li.active:before,  #progressbar li.active:after{
 	background: #022D71;
 	color: white;
+}
+
+#product_info, #auction_info, #confirmation {
+    padding-bottom: 20px;
+    border: 2px dotted #CDCDCD;
+}
+
+#auction_form a, #auction_form a:visited, #auction_form a:active {
+    text-decoration: none;
+    color: #575757;
+    padding-left: 30px;
+}
+
+#auction_form a:hover {
+    color: #022D71;
 }

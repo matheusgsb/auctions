@@ -58,11 +58,16 @@
 		<div id="navbar">
 			<table width="600" border="0" style="padding-top: 5px; font-size:14px;" class="center">
 				<tr height="25" >
-					<td width="70"><a href="/home/">Home</a</td>
-					<td width="70"><a href="/about/">About Us</a</td>
-					<td width="70"><a href="/profile/">Profile</a</td>
-					<td width="70"><a href="/register/">Register</a</td>
-					<td width="70"><a href="/contact/">Contact</a</td>
+					<td width="20%"><center><a href="/home/">Home</a></center></td>
+					<td width="20%"><center><a href="/about/">About Us</a></center></td>
+                        {% if user.is_authenticated %}
+                            <td width="20%"><center><a href="/profile/">Profile</a></center></td>
+                            <td width="20%"><center><a href="/create_auction/">Create Auction</a></center></td>
+                        {% else %}
+                            <td width="20%"><center><a href="/login/">Login</a></center></td>
+                            <td width="20%"><center><a href="/register/">Register</a></center></td>
+                        {% endif %}
+					<td width="20%"><center><a href="/contact/">Contact</a></center></td>
 				</tr>
 			</table>
 		</div>

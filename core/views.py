@@ -30,6 +30,7 @@ def search(request):
     auctions = Auction.objects.filter()
     auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
     c['auctions'] = auctions
+    c['term'] = request.POST["term"]
     return render_to_response('search.html', c)
 
 def login(request):

@@ -1,10 +1,52 @@
 {% extends "base.html" %}
 {% block title %} {{user.username}}'s Profile {% endblock %}
+{% block head %}
+{% load staticfiles %}
+    <script src="{% static "js/show-details.js" %}"> </script>
+{% endblock %}
 {% block content %}
+
+<h1> Search - "{{term}}"</h1>
 
 <!-- Just like the main page and category page, the list is in the variable auctions !-->
 {% for auction in auctions %}
-<p>{{auction.product.title}}</p>
+    <div class="out enterleave">
+        <div style="height: 250px;">
+            <a href="/auction/{{auction.id}}"><img src="{% static "css/no_image.png" %}" width="150" height="150" border="1"/></a>
+            <p> <a href="/auction/{{auction.id}}"> {{ auction.product.title }} </a> </p> </div>
+        <div class="hidden">
+            <table>
+                <tr><td>
+                    {% if auction.auction_type == "SEAL" or auction.auction_type == "VICK" %}
+                    Start Price: &pound;{{auction.start_price}}
+                    {% else %}
+                    {% if auction.winning_bid %}
+                    Last Bid: &pound;{{auction.winning_value}}
+                    {% else %}
+                    Start Price: &pound;{{auction.start_price}}
+                    {% endif %}
+                    
+                    {% endif%}
+                </td></tr>
+                <tr><td>Auction Type:
+                    {% if auction.auction_type == "SEAL" %}
+                    Sealed Bid
+                    {% else %}
+                    {% if auction.auction_type == "BRIT" %}
+                    British
+                    {% else %}
+                    Vickrey
+                    {% endif %}
+                    {% endif%}
+                </td></tr>
+                <tr><td>
+                    End: {{auction.date_end|date:"d/m/y H:i"}}
+                </td></tr>
+            </table>
+            
+        </div>
+    </div>
+
 {% endfor %}
-    
-{% endblock %}  
+
+{% endblock %}

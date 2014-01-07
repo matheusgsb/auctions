@@ -179,3 +179,12 @@ div.out a:hover {
     padding: 2px;
 }
 
+.table-form {
+    padding: 20px;
+}
+
+.table-form td {
+    padding: 5px;
+}
+
+
