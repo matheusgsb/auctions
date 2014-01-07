@@ -23,10 +23,12 @@ def home(request):
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
-def search(request, term):
+def search(request):
     c = RequestContext(request)
-    auctions = Auction.objects.all()
-    auctions = [auction for auction in auctions if term in auction.product.title]
+    if not request.method == "POST":
+        return HttpResponseRedirect('/home/')
+    auctions = Auction.objects.filter()
+    auctions = [auction for auction in auctions if request.POST["term"] in auction.product.title]
     c['auctions'] = auctions
     return render_to_response('search.html', c)
 

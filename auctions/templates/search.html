@@ -3,5 +3,8 @@
 {% block content %}
 
 <!-- Just like the main page and category page, the list is in the variable auctions !-->
+{% for auction in auctions %}
+<p>{{auction.product.title}}</p>
+{% endfor %}
     
 {% endblock %}  
