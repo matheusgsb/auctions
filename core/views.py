@@ -23,6 +23,15 @@ def home(request):
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
+def error404(request):
+    c = RequestContext(request)
+    return render_to_response('404.html', c)
+
+
+def error500(request):
+    c = RequestContext(request)
+    return render_to_response('500.html', c)
+
 def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
