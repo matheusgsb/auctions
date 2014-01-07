@@ -155,3 +155,7 @@ def create_auction(request):
 def about(request):
     c = RequestContext(request)
     return render_to_response("about.html", c)
+
+def contact(request):
+    c = RequestContext(request)
+    return render_to_response("contact.html", c)
