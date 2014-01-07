@@ -14,15 +14,15 @@
 				timestamp = timestamp.split(" ");
 				day = timestamp[0].split("/");
 				time = timestamp[1].split(":");
-				console.log(parseInt(time[0]), parseInt(time[1]),parseInt(time[2]));
 				day = day.map(function(item){
 					return parseInt(item);
 				});
 				time = time.map(function(item){
 					return parseInt(item);
 				});
-				var date = new Date(2000 + day[2], day[1], day[0],
-							 time[0], time[1], time[2], 0);
+
+				var date = new Date(2000 + day[2], day[1]-1, day[0], time[0], time[1], time[2], 0);
+				console.log(2000 + day[2], day[1], day[0], time[0], time[1], time[2], 0);
 				$('#countdown').countdown({until: date}); 
 				$("#bid").click(function(e)
 				{
