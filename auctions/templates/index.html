@@ -10,25 +10,47 @@
 
   <p>Here is the list of the latest auctions!</p>
 
-  <table id="auction_list"><tr>
   {% for auction in auctions %}
-    <td>{{ auction.product.title }}</td>
-  {% endfor %}
-  </tr></table>
-
-    <div class="out enterleave">
+   <div class="out enterleave">
         <div style="height: 250px;">
-            <a href="#"><img src="#" width="150" height="150" border="0"/></a>
-            <p> <a href="#">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a> </p> </div>
+            <a href="/auction/{{auction.id}}"><img src="{% static "css/no_image.png" %}" width="150" height="150" border="1"/></a>
+            <p> <a href="/auction/{{auction.id}}"> {{ auction.product.title }} </a> </p> </div>
         <div class="hidden">
             <table>
-                <tr><td>Price: $898989</td></tr>
-                <tr><td>b</td></tr>
-                <tr><td>c</td></tr>
+                <tr><td>
+                    {% if auction.auction_type == "SEAL" or auction.auction_type == "VICK" %}
+                        Start Price: &pound;{{auction.start_price}}
+                    {% else %}
+                        {% if auction.winning_bid %}
+                            Last Bid: &pound;{{auction.winning_value}}
+                        {% else %}
+                            Start Price: &pound;{{auction.start_price}}
+                        {% endif %}
+                        
+                    {% endif%}
+                    </td></tr>
+                <tr><td>Auction Type:
+                    {% if auction.auction_type == "SEAL" %}
+                        Sealed Bid
+                    {% else %}
+                        {% if auction.auction_type == "BRIT" %}
+                            British
+                        {% else %}
+                            Vickrey
+                        {% endif %}
+                    {% endif%}
+                </td></tr>
+                <tr><td>
+                    End: {{auction.date_end|date:"d/m/y H:i"}}
+                </td></tr>
             </table>
             
         </div>
     </div>
+
+  {% endfor %}
+
+
 
 
 {% endblock %}
