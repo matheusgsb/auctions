@@ -4,8 +4,69 @@
 
  <h1> Contact us </h1>
 	<p>Welcome to the Contact Us page of the AuctionZ.<br>
-	You can contact us by email.<br><br> Please send your suggestions, complains and questions to<br>
-	auctionz.corp@gmail.com</p>
+	Please complete the form below:<br></p>
+
+	<form role="form" id="contact_form" action="" method="post">
+	{% csrf_token %}
+	<fieldset id="your_details">
+		<legend>Contact Us <font color="red">*</font></legend>
+		<table class="table-form">
+			<tr>
+				<td>Full Name:
+				</td>
+				<td>
+					<input class="editable" name="p_full_name" type="text" placeholder="Full Name" required/>
+				</td>
+			</tr>
+			<tr>
+				<td>Email:
+				</td>
+				<td>
+					<input class="editable" name="p_email" type="email" placeholder="Email" id="email" required/>
+				</td>
+			</tr>
+				<td>Confirm Email:
+				</td>
+				<td>
+					<input class="editable" name="p_confirm_email" type="email" placeholder="Confirm Email" 					onblur="confirmEmail()" id="confemail" required/>
+				</td>
+				<script type="text/javascript">
+				    function confirmEmail() {
+					var email = document.getElementById("email").value
+					var confemail = document.getElementById("confemail").value
+					if(email != confemail) {
+					    alert('Email Not Matching!');
+					}
+				    }
+				</script>
+			</tr>
+			<tr>
+			</tr>
+	</table>
+	</fieldset><br><br>
+	<fieldset id="your_enquiry">
+		<legend>Your Enquiry <font color="red">*</font></legend>
+		<table class="table-form">
+			<tr>
+				<td>Subject:
+				</td>
+				<td>
+					<input class="editable" name="p_subject" type="text" placeholder="Subject" required/>
+				</td>
+			</tr>
+				<td>Your Enquiry:
+				</td>
+				<td>
+					 <textarea name="p_your_enquiry"  rows="6" cols="50" required></textarea>
+
+				</td>
+			</tr>
+
+		</table>	
+		</fieldset><br>
+		<input type="submit" value="Submit">
+		<input type="reset" value="Clear">
+</form>
 
 	
 
