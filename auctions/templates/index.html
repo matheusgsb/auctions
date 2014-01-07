@@ -19,12 +19,12 @@
             <table>
                 <tr><td>
                     {% if auction.auction_type == "SEAL" or auction.auction_type == "VICK" %}
-                        Start Price: {{auction.start_price}}
+                        Start Price: &pound;{{auction.start_price}}
                     {% else %}
                         {% if auction.winning_bid %}
-                            Last Bid: {{auction.winning_bid}}
+                            Last Bid: &pound;{{auction.winning_value}}
                         {% else %}
-                            Start Price: {{auction.start_price}}
+                            Start Price: &pound;{{auction.start_price}}
                         {% endif %}
                         
                     {% endif%}
