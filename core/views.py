@@ -131,6 +131,8 @@ def create_auction(request):
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)
+        else:
+            print form.errors
     else:
         form = AuctionCreationForm(user=request.user)
     c['form'] = form
