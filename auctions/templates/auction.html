@@ -1,25 +1,39 @@
 {% extends "base.html" %}
 {% block title %} {% if invalid_auction %} Invalid Auction {% else %} Auction for {{auction.product.title}} {% endif %} {% endblock %}
+{% block head %}
+
+{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static "css/jquery.countdown.css" %}" media="screen" />
+		<script src="{% static "js/jquery.countdown.min.js" %}">
+		</script>
+		<script>
+			$(document).ready(function()
+			{
+				var date = new Date($("#date_end").html().replace(".","")); 
+				$('#countdown').countdown({until: date}); 
+			});
+		</script>
+{% endblock %}
 {% block content %}
 
 {% if invalid_auction %}
 <h1>Invalid Auction</h1>
 <p>You are trying to view an invalid auction. Try another one.</p>
 {% else %}
-<div style="width: 150px;height: 100px;float: left;"></div>
 <h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
 
 <p>This is a {{auction.get_type_name}}</p>
 <p><b>Description: </b>{{auction.product.description}}</p>
 <table id="auction_info">
   <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin}}</td></tr>
-  <tr><td><b>This auction will end at:</b></td><td>{{auction.date_end}}</td></tr>
+  <tr><td><b>This auction will end at:</b></td><td id="date_end">{{auction.date_end}}</td></tr>
   <tr></tr> <!-- This is just to jump a line !-->
   <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
 </table>
 <table id="auction_info2">
   <tr><td><b>Starting price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
 </table>
+<b>Time remaining:</b><div id="countdown" style="height:45px;width:200px"></div>
 {% if auction.finished %}
   <table id="selling_info">
     <tr><td><b>Sold for:</b></td><td>{{auction.winning_value}}</td></tr>
