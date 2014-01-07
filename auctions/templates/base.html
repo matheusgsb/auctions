@@ -15,31 +15,42 @@
 		<div id="header">
 			<table border="0" id="header-table" class="center">
 				<tr height="60">
-					<td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-10px;" /></a></center></td>
+					<td id="logo"><center><a href="/home/"> <img src="{% static "css/logo.png" %}" style="margin-top:-12px;" /></a></center></td>
 					<td id="search">
 						<form>
 							<table style="width: 100%;">
 								<tr>
 									<td width="70" align="right"> <text> Search </text> </td>
-									<td><input type="text" id="search-input" style="width:100%;"/></td>
+									<td><input class="input-text" type="text" id="search-input" style="width:95%;"/></td>
 									<td width="50" align="left"><input type="submit" value="Go" class=/> </td>
 								</tr>
+                                <tr><td>&nbsp;</td></tr>
 							</table>
 						</form>
 					</td>
 					<td id="user" style="color:#ffffff">
+                        <center>
 						{% if user.is_authenticated %}
-						<p style="font-size: 10px">Logged in as <a href="/profile/" style="color:#ffffff">{{user.username}}</a><br />
-						<a href="/logout/" alt="Log out"><button id="logout_button" style="font-size: 10px">Log Out</button></a></p>
+						<p style="font-size: 12px;">You're logged in as <a href="/profile/" style="color:#ffffff">{{user.username}}</a>
+						&nbsp;&nbsp;&nbsp; <a href="/logout/" alt="Log out"><button id="logout_button" style="font-size: 12px">Log Out</button></a></p>
 						{% else %}
 						<form id="login_form" method="post" action="/login/">
 							{% csrf_token %}
-							<input type="text" name="username" value="" placeholder="Username" style="font-size: 10px"><br />
-  							<input type="password" name="password" value="" placeholder="Password" style="font-size: 10px"><br />
-  							<input type="submit" name="submit" value="Log in" style="font-size: 10px">
-  							<a href="/register/" style="color:#ffffff">Register</a><br />
+							<table>
+                                <tr>
+                                    <td><input class="input-text" type="text" name="username" value="" placeholder="Username" style="font-size: 10px"></td>
+                                    <td><input class="input-text" type="password" name="password" value="" placeholder="Password" style="font-size: 10px"></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td align="right"><input type="submit" name="submit" value="Log in" style="font-size: 12px">
+                                        <a href="/register/" style="color:#ffffff">Register</a><br /></td>
+                                </tr>
+                                </table>
+  							
   						</form>
   						{% endif %}
+                        </center>
 					</td>
 				</tr> 
 			</table>
@@ -49,6 +60,8 @@
 				<tr height="25" >
 					<td width="70"><a href="/home/">Home</a</td>
 					<td width="70"><a href="/about/">About Us</a</td>
+					<td width="70"><a href="/profile/">Profile</a</td>
+					<td width="70"><a href="/register/">Register</a</td>
 					<td width="70"><a href="/contact/">Contact</a</td>
 				</tr>
 			</table>

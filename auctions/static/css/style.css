@@ -29,7 +29,16 @@ body {
 
 #user {
 	width: 400px;
+    float: left;
+}
 
+#user a, #user a:active, #user a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+#user a:hover {
+    text-decoration: underline;
 }
 
 #container {
@@ -163,5 +172,10 @@ div.out a, div.out a:visited, div.out a:active {
 }
 div.out a:hover {
     color: #022D71;
+}
+
+.input-text {
+    margin: 5px;
+    padding: 2px;
 }
 
