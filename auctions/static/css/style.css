@@ -29,7 +29,6 @@ body {
 
 #user {
 	width: 400px;
-    float: left;
 }
 
 #user a, #user a:active, #user a:visited {
@@ -128,8 +127,28 @@ body {
 
 #footer {
 	clear: both;
-	background-color: #696969;
 	height: 80px;
+    background-image: linear-gradient(rgb(88,88,88), #C6C6C6 100%);
+    border-top: 1px solid #575757 ;
+    border-bottom: 1px solid #6b6b6b;
+    filter: none;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+#footer p {
+    height: 100%;
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+#footer a, #footer a:visited, #footer a:active {
+    text-decoration: underline;
+    color: #fff;
+}
+
+#footer a:hover {
+    color:#DBDBDB;
 }
 
 .center {
@@ -185,6 +204,15 @@ div.out a:hover {
 
 .table-form td {
     padding: 5px;
+}
+
+#about a, #about a:active, #about:visited {
+    color: #575757;
+    text-decoration: none;
+}
+
+#about a:hover {
+    color: #022D71;
 }
 
 

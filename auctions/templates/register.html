@@ -17,9 +17,9 @@
       {% csrf_token %}
       {% for field in form %}
         {% if field.name != "password1" and field.name != "password2" %}
-        <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}"><br>
+        <input class="input-text" type="text" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}" value="{% if field.value %}{{ field.value }}{% endif %}"><br>
         {% else %}
-        <input type="password" maxlength="15" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}"><br>
+        <input class="input-text" type="password" maxlength="15" name="{{ field.name }}" id="id_{{ field.name }}" placeholder="{% if not form.value %}{{ field.label|capfirst }}{% endif %}"><br>
         {% endif %}
       {% endfor %}
       <input type="submit" id="register" value="Register"/>
