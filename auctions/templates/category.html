@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %} Category - {% if invalid_cat %} Invalid {% else %} {{cat_name}} {% endif %} {% endblock %}
+{% block head %}
+{% load staticfiles %}
+    <script src="{% static "js/show-details.js" %}"> </script>
+{% endblock %}
 {% block content %}
 
   <!-- FRONT-END people, apply styles and beauty to this page!-->
@@ -9,17 +13,48 @@
   {% if invalid_cat %} <p>You have requested an invalid category! Try clicking on the links in the menu</p>
   {% else %}
 
-    <table id="products_table">
-      <tr>
-        {% if num_auctions == 0 %} No results found. Try another category.
-        {% else %}
+    {% if num_auctions == 0 %} <p>No results found. Try another category.</p>
+    {% else %}
           {% for auction in auctions %}
-            <td>{{auction.product.title}}</td>
+            <div class="out enterleave">
+                <div style="height: 250px;">
+                    <a href="/auction/{{auction.id}}"><img src="{% static "css/no_image.png" %}" width="150" height="150" border="1"/></a>
+                    <p> <a href="/auction/{{auction.id}}"> {{ auction.product.title }} </a> </p> </div>
+                <div class="hidden">
+                    <table>
+                        <tr><td>
+                            {% if auction.auction_type == "SEAL" or auction.auction_type == "VICK" %}
+                            Start Price: &pound;{{auction.start_price}}
+                            {% else %}
+                            {% if auction.winning_bid %}
+                            Last Bid: &pound;{{auction.winning_value}}
+                            {% else %}
+                            Start Price: &pound;{{auction.start_price}}
+                            {% endif %}
+                            
+                            {% endif%}
+                        </td></tr>
+                        <tr><td>Auction Type:
+                            {% if auction.auction_type == "SEAL" %}
+                            Sealed Bid
+                            {% else %}
+                            {% if auction.auction_type == "BRIT" %}
+                            British
+                            {% else %}
+                            Vickrey
+                            {% endif %}
+                            {% endif%}
+                        </td></tr>
+                        <tr><td>
+                            End: {{auction.date_end|date:"d/m/y H:i"}}
+                        </td></tr>
+                    </table>
+                    
+                </div>
+            </div>
+
           {% endfor %}
         {% endif %}
-      </tr>
-    </table>
-
   {% endif %}
-    
-{% endblock %}  
+
+{% endblock %}
