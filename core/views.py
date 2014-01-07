@@ -23,6 +23,13 @@ def home(request):
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
+def search(request, term):
+    c = RequestContext(request)
+    auctions = Auction.objects.all()
+    auctions = [auction for auction in auctions if term in auction.product.title]
+    c['auctions'] = auctions
+    return render_to_response('search.html', c)
+
 def login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/home/')
