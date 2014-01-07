@@ -13,6 +13,8 @@ from .models import *
 from .forms import *
 from django.core.mail import send_mail
 import datetime
+import json
+from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
@@ -124,12 +126,13 @@ def auction(request, aid):
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
+                return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
                 c['invalid_bid'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
     except ValidationError as e:
-        c['error'] = "You cannot bid to your own auction"
+        return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
     except Exception as e:
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
