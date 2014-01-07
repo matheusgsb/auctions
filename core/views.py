@@ -107,12 +107,13 @@ def edit_profile(request):
     c = RequestContext(request)
     c['register_problem'] = False
     if request.method == 'POST':
-        form = CustomUserChangeForm(user=request.user, data=request.POST)
+        form = CustomUserChangeForm(data=request.POST, user=request.user)
 
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/home/')
         else:
+            print form.errors
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
     else:
