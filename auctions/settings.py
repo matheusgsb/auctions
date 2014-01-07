@@ -24,6 +24,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+ADMINS = (
+    ('AuctionZ admin', 'auctionz.corp@gmail.com'),
+)
+
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
