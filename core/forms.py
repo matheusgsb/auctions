@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+import pytz
+from datetime import timedelta
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -125,6 +127,24 @@ class BidCreationForm(forms.ModelForm):
             msg = "Invalid bid value"
             raise forms.ValidationError(msg)
 
+    def check_time(self, bid):
+        TIME_LIMIT = 10
+        TIME_EXTENSION = 10
+        td = self._auction.date_end - pytz.UTC.localize(bid.date)
+        if td.days < 0:
+            # Bid made after auction deadline
+            # reject
+            return False
+        else:
+            # verifies if british auction deadline should be extended
+            if self._auction.auction_type == 'BRIT':
+                w_bid = self._auction.winning_bid()
+                if td.seconds < 60*TIME_LIMIT and bid.value > w_bid.value:
+                    self._auction.date_end = self._auction.date_end + timedelta(seconds=60*TIME_EXTENSION)
+                    self._auction.save()
+
+            return True
+
     def save(self, commit=True):
         if not self._user.is_authenticated():
             msg = "User must be logged in to bid"
@@ -138,6 +158,9 @@ class BidCreationForm(forms.ModelForm):
                 bidder=self._user, auction=self._auction,
                 value=self.cleaned_data.get('value')
             )
+        if not self.check_time(bid):
+            msg = "Invalid bid timing"
+            raise forms.ValidationError(msg)
 
         if commit:
             bid.save()
