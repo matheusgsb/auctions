@@ -9,6 +9,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^error404/$', 'core.views.error404', name='error404'),
+    url(r'^error500/$', 'core.views.error500', name='error500'),
+
     url(r'^$', 'core.views.home', name='home'),
     url(r'^index/$', 'core.views.home', name='home'),
     url(r'^home/$', 'core.views.home', name='home'),
