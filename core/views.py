@@ -50,6 +50,9 @@ def login(request):
             return HttpResponseRedirect('/home/')
         else:
             request.session['login_failed'] = True
+            c = RequestContext(request)
+            c['wrong_login'] = True
+            return render_to_response('login.html', c)
     c = RequestContext(request)
     return render_to_response('login.html', c)
 
