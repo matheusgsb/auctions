@@ -121,10 +121,13 @@ class BidCreationForm(forms.ModelForm):
         super(BidCreationForm, self).__init__(*args, **kwargs)
         self._user = user
         self._auction = auction
+        self.fields['value'].required = False
 
     def clean_value(self):
         try:
             value = float(self.cleaned_data.get('value'))
+            if value <= 0:
+                raise Exception
             return value
         except:
             msg = "Invalid bid value"

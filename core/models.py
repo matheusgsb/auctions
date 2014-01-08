@@ -44,6 +44,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=25, verbose_name=u'Email')
     subject = models.CharField(max_length=25, verbose_name=u'Subject')
     message = models.TextField(verbose_name=u'Message')
+    date = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Date')
 
     def __unicode__(self):
         return str(self.id) + " - " + str(self.date) + " " + self.name

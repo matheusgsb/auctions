@@ -149,19 +149,19 @@ def auction(request, aid):
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
-                return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
+                #return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
                 c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
-    except ValidationError as e:
-        c['error'] = e
-        return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
-    except Exception as e:
+
+        c['form'] = form
+        return render_to_response('auction.html', c)
+    except Auction.DoesNotExist:
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
-    c['form'] = form
-    return render_to_response('auction.html', c)
+    except Exception:
+        return render_to_response('auction.html', c)
 
 @login_required
 def create_auction(request):
@@ -188,7 +188,9 @@ def contact(request):
         form = ContactForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/home/')
+            c['ok'] = True
+        else:
+            c['fail'] = True
     else:
         form = ContactForm()
     c['form'] = form
