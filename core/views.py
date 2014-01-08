@@ -163,7 +163,7 @@ def auction(request, aid):
 def create_auction(request):
     c = RequestContext(request)
     if request.method == 'POST':
-        form = AuctionCreationForm(user=request.user, data=request.POST)
+        form = AuctionCreationForm(user=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)

@@ -71,6 +71,7 @@ class AuctionCreationForm(forms.ModelForm):
         widget=forms.Select, choices=Product.CATEGORIES)
     p_title = forms.CharField(label='Product title', widget=forms.TextInput)
     p_description = forms.CharField(label='Product description', widget=forms.TextInput)
+    p_image = forms.ImageField(label='Product image')
 
 
     class Meta:
@@ -96,7 +97,8 @@ class AuctionCreationForm(forms.ModelForm):
         product = Product(
                 title=self.cleaned_data.get('p_title'),
                 description=self.cleaned_data.get('p_description'),
-                category=self.cleaned_data.get('p_category')
+                category=self.cleaned_data.get('p_category'),
+                image=self.files.get('p_image')
             )
         auction = Auction(
                 auctioneer=self._user, date_end=self.cleaned_data.get('date_end'),
