@@ -19,7 +19,8 @@ from django.http import HttpResponse
 # Create your views here.
 def home(request):
     c = RequestContext(request)
-    auctions = Auction.objects.filter(date_end__gte=datetime.date.today()).order_by('-date_begin')[0:20]
+    auctions = Auction.objects.filter(date_end__gte=datetime.datetime.now()).order_by('-date_begin')[0:20]
+    #auctions holds a list of 20 auctions which are still open for bids. This list is ordered from newest auction to oldest
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
@@ -36,8 +37,10 @@ def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
-    auctions = Auction.objects.filter()
+    auctions = Auction.objects.filter() #get every auction object on the date base
     auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
+    # through list comprehesion, filter the results according to the product name
+    #lower() is used to make the search case insensitive
     c['auctions'] = auctions
     c['term'] = request.POST["term"]
     return render_to_response('search.html', c)
