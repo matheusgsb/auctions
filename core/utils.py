@@ -11,6 +11,7 @@ def log_user(request, username, password):
         if user.is_active:
             login(request, user)
             return True
+        # TODO: we should recommend the user to reactivate his account
         else:
             return False
     else:

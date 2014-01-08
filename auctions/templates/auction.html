@@ -22,7 +22,7 @@
         <p><b>This auction began at:</b> {{auction.date_begin|date:"d/m/y H:i:s"}}</p>
         <p><b>This auction will end at:</b><span id="date_end">{{auction.date_end|date:"d/m/y H:i:s"}}</span></p>
         <p><b>Starting price:</b> &pound;{{auction.start_price}}</p>
-        <br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
         <table id="bid-table" style="margin-top:0px;">
             <tr valign="top">
                 <td>{% if auction.finished %}
