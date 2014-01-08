@@ -13,6 +13,6 @@
   <input style="margin:10px;" type="submit" name="submit" id="submit_page"><a href="/register/">Register</a><br />
 </form></p>
 
-<div id="error_page" style="color: red !important;"> {% if wrong_login %} <b>Error: </b> Wrong user and/or password! {% endif %}</div>
+<div id="error_page" style="color: red !important;"> {% if login_failed %} <b>Error: </b> Wrong user and/or password! {% endif %}</div>
 
 {% endblock %}  
