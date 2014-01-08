@@ -172,18 +172,11 @@ class BidCreationForm(forms.ModelForm):
         return bid
 
 class ContactForm(forms.ModelForm):
-    name = forms.CharField(label='Full name', widget=forms.TextInput)
-    subject = forms.CharField(label='Subject', widget=forms.TextInput)
-    message = forms.CharField(label='Message', widget=forms.Textarea(attrs={'cols': 80, 'rows': 20}))
+    message = forms.CharField(
+        max_length = 250,
+        widget = forms.Textarea
+    )
 
     class Meta:
-        model = User
-        fields = ('email',)
-
-    def __init__(self, *args, **kwargs):
-        super(ContactForm, self).__init__(*args, **kwargs)
-    
-    def contact_adm(self):
-        send_mail(subject=self.cleaned_data.get('subject'), message=self.cleaned_data.get('message'),
-           from_email=self.cleaned_data.get('email'), recipient_list=['auctionz.corp@gmail.com'], fail_silently=False)
-        print self.cleaned_data.get('email')
+        model = Contact
+        exclude = []

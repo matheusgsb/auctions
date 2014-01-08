@@ -181,7 +181,7 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(data=request.POST)
         if form.is_valid():
-            form.contact_adm()
+            form.save()
             return HttpResponseRedirect('/home/')
     else:
         form = ContactForm()
