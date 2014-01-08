@@ -14,16 +14,22 @@ $(document).ready(function(){
     var date = new Date(2000 + day[2], day[1]-1, day[0], time[0], time[1], time[2], 0);
     $('#countdown').countdown({until: date});
     $("#bid").click(function(e) {
+        if($("#id_value").val()==="")
+        {
+            alert("Please insert a valid value to place a bid.");
+            e.preventDefault();
+            return false;
+        }
         var a = confirm("You're about to place a bid of "+$("#id_value").val()+" pounds. Are you sure?");
         if(a) {
             var form = $(this).parent();
             $.post( "/auction/"+$("#auction_id").val()+"/",form.serialize(), function( data ) {
                 $("#success").html(data);
             }).fail(function(){
-                $("#success").html("Your bid could not be placed, try again. :(");
+                alert("Your bid could not be placed, try again.")
             });
         } else
-            $("#success").html("Bid cancelled.");
+            alert("Bid cancelled.");
         e.preventDefault();
     });
 });
