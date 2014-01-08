@@ -41,7 +41,7 @@ $(document).ready(function()
 			var flag = true;
 			$("#auction_form").find("input").each(function()
 			{
-				if($(this).val() === "")
+				if($(this).attr("type") != "file" && $(this).val() === "")
 				{	
 					alert($(this).attr("placeholder")+" is obligatory");
 					flag=false;
@@ -82,7 +82,10 @@ $(document).ready(function()
 		});
 		$(".editable").change(function()
 		{
-			$("#"+$(this).attr("name")).html($(this).val());
+			if(!$(this).is("select"))
+				$("#"+$(this).attr("name")).html($(this).val());
+			else
+				$("#"+$(this).attr("name")).html($(this).find(":selected").text());
 		});
 		$("#next1").click(function()
 		{
