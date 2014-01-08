@@ -157,9 +157,10 @@ class BidCreationForm(forms.ModelForm):
             msg = "Cannot bid to own auction"
             raise forms.ValidationError(msg)
 
+        value = self.cleaned_data.get('value')
         bid = Bid(
                 bidder=self._user, auction=self._auction,
-                value=self.cleaned_data.get('value')
+                value=value
             )
         if not self.check_time(bid):
             msg = "Invalid bid timing"
