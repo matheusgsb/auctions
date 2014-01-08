@@ -115,6 +115,9 @@ def edit_profile(request):
         else:
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
+            c['auth_error'] = 'old_pass' in form.errors.keys()
+            c['confirm_error'] = 'password2' in form.errors.keys()
+
     else:
         form = CustomUserChangeForm(user=request.user)
     c['form'] = form
