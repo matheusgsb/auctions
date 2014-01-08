@@ -40,6 +40,9 @@ class CustomUserChangeForm(forms.ModelForm):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
         self._user = user
 
+        if user:
+            self.fields['email'].label = user.email
+
         for key in self.fields:
             self.fields[key].required = False    
 
