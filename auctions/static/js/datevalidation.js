@@ -10,9 +10,9 @@
 
 			if (dtArray === null)
 				return false;
-			//Checks for mm/dd/yyyy format.
-			var dtMonth = dtArray[1];
-			var dtDay= dtArray[3];
+			//Checks for dd/mm/yyyy format.
+			var dtMonth = dtArray[3];
+			var dtDay= dtArray[1];
 			var dtYear = dtArray[5];
 			if (dtMonth < 1 || dtMonth > 12)
 				return false;
