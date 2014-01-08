@@ -41,7 +41,7 @@ class Bid(models.Model):
 
 class Contact(models.Model):    
     name = models.CharField(max_length=25, verbose_name=u'Name')
-    email = models.EmailField(max_length=25, verbose_name=u'Email')
+    email = models.EmailField(max_length=50, verbose_name=u'Email')
     subject = models.CharField(max_length=25, verbose_name=u'Subject')
     message = models.TextField(verbose_name=u'Message')
     date = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Date')
