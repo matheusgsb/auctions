@@ -12,7 +12,7 @@
 {% for auction in auctions %}
     <div class="out enterleave">
         <div style="height: 250px;">
-            <a href="/auction/{{auction.id}}"><img src="{% static "css/no_image.png" %}" width="150" height="150" border="1"/></a>
+            <a href="/auction/{{auction.id}}"><img src="{{ auction.product.image.url }}" width="150" height="150" border="1"/></a>
             <p> <a href="/auction/{{auction.id}}"> {{ auction.product.title }} </a> </p> </div>
         <div class="hidden">
             <table>

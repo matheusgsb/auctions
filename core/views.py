@@ -148,7 +148,7 @@ def auction(request, aid):
                 form.save()
                 return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
-                c['invalid_bid'] = form.errors
+                c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
     except ValidationError as e:
@@ -167,6 +167,8 @@ def create_auction(request):
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)
+        else:
+            c['errors'] = form.errors
     else:
         form = AuctionCreationForm(user=request.user)
     c['form'] = form
