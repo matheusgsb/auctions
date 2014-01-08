@@ -37,8 +37,10 @@ def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
-    auctions = Auction.objects.filter()
+    auctions = Auction.objects.filter() #get every auction object on the date base
     auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
+    # through list comprehesion, filter the results according to the product name
+    #lower() is used to make the search case insensitive
     c['auctions'] = auctions
     c['term'] = request.POST["term"]
     return render_to_response('search.html', c)
