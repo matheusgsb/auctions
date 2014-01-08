@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 {% block title %} Log In {% endblock %}
+{% block head %} {% load staticfiles %} <script src="{% static "js/login.js" %}"> </script> {% endblock %}
 {% block content %}
 
 <h1>Log In</h1>
 
 <p>Log in to AuctionZ</p>
 
-<p><form method="post" action="/login/">
-  {% csrf_token %}
-  <input type="text" name="username" value="" placeholder="Username"><br />
-  <input type="password" name="password" value="" placeholder="Password"><br />
-  <input type="submit" name="submit"><a href="/register/">Register</a><br />
+<p><form method="post" action="/login/"> {% csrf_token %}
+  <input class="input-text" type="text" id="username_page" name="username" value="" placeholder="Username"><br />
+  <input class="input-text" type="password" id="password_page" name="password" value="" placeholder="Password"><br />
+  <input style="margin:10px;" type="submit" name="submit" id="submit_page"><a href="/register/">Register</a><br />
 </form></p>
-    
+
+<div id="error_page" style="color: red !important;"> {% if wrong_login %} <b>Error: </b> Wrong user or password! {% endif %}</div>
+
 {% endblock %}  

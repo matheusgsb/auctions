@@ -6,40 +6,37 @@ function validateEmail(email) {
 }
     $(document).ready(function()
     {
-
       $("#register").click(function(e)
       {
+        var error_msg = "<b>Error(s):</b><br>";
         if($("#id_username").val()==="")
         {
-          alert("Insert an username");
+          error_msg += " *Insert an username<br>";
           e.preventDefault();
-          return;
         }
         if(!validateEmail($("#id_email").val()))
         {
-          alert("Invalid e-mail");
+          error_msg += " *Invalid e-mail<br>";
           e.preventDefault();
-          return;
         }
         if($("#id_password1").val()!=$("#id_password2").val())
         {
-          alert("The passwords are different");
+          error_msg += " *The passwords are different<br>";
           e.preventDefault();
-          return;
         }
-        if($("#id_password1").val().length >15
-          || $("#id_password2").val().length >15)
+        if($("#id_password1").val().length >15 || $("#id_password2").val().length >15)
         {
-          alert("Password too long");
+          error_msg += " *Password too long<br>";
           e.preventDefault();
-          return;
         }
-        if($("#id_password1").val().length <6
-          || $("#id_password2").val().length <6)
+        if($("#id_password1").val().length <6 || $("#id_password2").val().length <6)
         {
-          alert("Password too short");
+          error_msg += " *Password too short<br>";
           e.preventDefault();
-          return;
+        }
+        if(error_msg != "<b>Error(s):</b><br>") {
+            $("#error").html(error_msg);
+            return false;
         }
       })
     });

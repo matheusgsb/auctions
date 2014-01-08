@@ -2,16 +2,9 @@
 {% block title %} Register {% endblock %}
 {% block head %}
 {% load staticfiles %}
-      <script src="{% static "js/register.js" %}">
-      </script>
+      <script src="{% static "js/register.js" %}"> </script>
 {% endblock %}
-  {% if register_problem %}
-  <p>There was a problem with your registration. Please, try again</p>
-  {% if username_in_use %}<p style="color:#ff0000">The username provided is already in use</p>{% endif %}
-  {% if email_in_use %}<p style="color:#ff0000">The email provided is already in use</p>{% endif %}
-  {% endif %}
   {% block content %}
-
     <h1> Registration </h1>
     <form role="form" action="" method="post">
       {% csrf_token %}
@@ -24,4 +17,11 @@
       {% endfor %}
       <input type="submit" id="register" value="Register"/>
     </form>
+    <div id="error" style="color: red !important; margin-top: 10px;">
+        {% if register_problem %}
+        <b>Erro(s):</b>
+            {% if username_in_use %}<br> *The username provided is already in use {% endif %}
+            {% if email_in_use %}<br> *The email provided is already in use {% endif %}
+        {% endif %}
+    </div>
   {% endblock %}  
