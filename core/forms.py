@@ -13,6 +13,13 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("username", "email", "password1", "password2")
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).count():
+            msg = "Email addresses must be unique"
+            raise forms.ValidationError(msg)
+        return email
+
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
@@ -50,6 +57,14 @@ class CustomUserChangeForm(forms.ModelForm):
             raise forms.ValidationError(msg)
 
         return password2
+
+    def clean_email(self):
+        username = self._user.username
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).exclude(username=username).count():
+            msg = "Email addresses must be unique"
+            raise forms.ValidationError(msg)
+        return email
 
     def save(self, commit=True):
         # Save the provided password in hashed format
