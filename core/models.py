@@ -63,6 +63,7 @@ class Auction(models.Model):
     product = models.ForeignKey('Product', verbose_name=u'Product')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
     start_price = models.FloatField(default=0, verbose_name=u'Start price')
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return str(self.id)

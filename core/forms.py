@@ -98,7 +98,7 @@ class AuctionCreationForm(forms.ModelForm):
 
     class Meta:
         model = Auction
-        exclude = ['auctioneer', 'date_begin', 'product']
+        exclude = ['auctioneer', 'date_begin', 'product', 'active']
         widgets = {
             'date_end': forms.DateTimeInput,
         }
