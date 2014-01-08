@@ -152,6 +152,7 @@ def auction(request, aid):
         else:
             form = BidCreationForm(user=request.user, auction=auction)
     except ValidationError as e:
+        c['error'] = e
         return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
     except Exception as e:
         c['invalid_auction'] = True
