@@ -163,7 +163,7 @@ def auction(request, aid):
 def create_auction(request):
     c = RequestContext(request)
     if request.method == 'POST':
-        form = AuctionCreationForm(user=request.user, data=request.POST)
+        form = AuctionCreationForm(user=request.user, data=request.POST, files=request.FILES)
         if form.is_valid():
             auction = form.save()
             return HttpResponseRedirect('/auction/%d/' % auction.id)
@@ -178,4 +178,13 @@ def about(request):
 
 def contact(request):
     c = RequestContext(request)
-    return render_to_response("contact.html", c)
+    if request.method == 'POST':
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            form.contact_adm()
+            return HttpResponseRedirect('/home/')
+    else:
+        form = ContactForm()
+    c['form'] = form
+    return render_to_response('contact.html', c)
+

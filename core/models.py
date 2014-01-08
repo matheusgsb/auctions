@@ -24,7 +24,7 @@ class Product(models.Model):
     title =  models.CharField(max_length=30, verbose_name=u'Title')
     description =  models.CharField(max_length=500, verbose_name=u'Description')
     category = models.CharField(max_length=5, choices=CATEGORIES, default='NA')
-    # image = models.ImageField(upload_to='photos/%Y/%m/%d')
+    image = models.ImageField(upload_to='images/%Y/%m/%d')
 
     def __unicode__(self):
         return str(self.id) + " - " + self.title
@@ -37,6 +37,18 @@ class Bid(models.Model):
 
     def __unicode__(self):
         return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
+
+
+class Contact(models.Model):
+    
+    name = models.CharField(max_length=100, verbose_name=u'Name')
+    email = models.CharField(max_length=100, verbose_name=u'EMail')
+    subject = models.CharField(max_length=100, verbose_name=u'Subject')
+    message = models.CharField(max_length=1000, verbose_name=u'Message')
+
+    def __unicode__(self):
+        return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
+
 
 class Auction(models.Model):
     TYPE = (

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserCreationForm
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from .models import *
 import pytz
 from datetime import timedelta
@@ -70,6 +71,7 @@ class AuctionCreationForm(forms.ModelForm):
         widget=forms.Select, choices=Product.CATEGORIES)
     p_title = forms.CharField(label='Product title', widget=forms.TextInput)
     p_description = forms.CharField(label='Product description', widget=forms.TextInput)
+    p_image = forms.ImageField(label='Product image')
 
 
     class Meta:
@@ -95,7 +97,8 @@ class AuctionCreationForm(forms.ModelForm):
         product = Product(
                 title=self.cleaned_data.get('p_title'),
                 description=self.cleaned_data.get('p_description'),
-                category=self.cleaned_data.get('p_category')
+                category=self.cleaned_data.get('p_category'),
+                image=self.files.get('p_image')
             )
         auction = Auction(
                 auctioneer=self._user, date_end=self.cleaned_data.get('date_end'),
@@ -166,3 +169,20 @@ class BidCreationForm(forms.ModelForm):
             bid.save()
 
         return bid
+
+class ContactForm(forms.ModelForm):
+    name = forms.CharField(label='Full name', widget=forms.TextInput)
+    subject = forms.CharField(label='Subject', widget=forms.TextInput)
+    message = forms.CharField(label='Message', widget=forms.Textarea(attrs={'cols': 80, 'rows': 20}))
+
+    class Meta:
+        model = User
+        fields = ('email',)
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+    
+    def contact_adm(self):
+        send_mail(subject=self.cleaned_data.get('subject'), message=self.cleaned_data.get('message'),
+           from_email=self.cleaned_data.get('email'), recipient_list=['auctionz.corp@gmail.com'], fail_silently=False)
+        print self.cleaned_data.get('email')

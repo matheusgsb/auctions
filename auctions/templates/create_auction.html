@@ -17,7 +17,7 @@
 		<li>Auction Information</li>
 		<li>Confirmation</li>
 	</ul><br>
-	<form role="form" id="auction_form" action="" method="post">
+	<form role="form" id="auction_form" action="" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	<fieldset id="product_info">
 		<legend>Product Information</legend>
@@ -39,6 +39,13 @@
 				</td>
 				<td>
 					<input class="editable" name="p_description" type="text" placeholder="Description"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Image:
+				</td>
+				<td>
+					{{ form.p_image }}
 				</td>
 			</tr>
 		</table>
