@@ -1,105 +1,55 @@
 {% extends "base.html" %}
 {% block title %} {% if invalid_auction %} Invalid Auction {% else %} Auction for {{auction.product.title}} {% endif %} {% endblock %}
 {% block head %}
-
-{% load staticfiles %}
-		<link rel="stylesheet" type="text/css" href="{% static "css/jquery.countdown.css" %}" media="screen" />
-		<script src="{% static "js/jquery.countdown.min.js" %}">
-		</script>
-		<script>
-			$(document).ready(function()
-			{
-				var day, time;
-				var timestamp = $("#date_end").html();
-				timestamp = timestamp.split(" ");
-				day = timestamp[0].split("/");
-				time = timestamp[1].split(":");
-				day = day.map(function(item){
-					return parseInt(item);
-				});
-				time = time.map(function(item){
-					return parseInt(item);
-				});
-
-				var date = new Date(2000 + day[2], day[1]-1, day[0], time[0], time[1], time[2], 0);
-				console.log(2000 + day[2], day[1], day[0], time[0], time[1], time[2], 0);
-				$('#countdown').countdown({until: date}); 
-				$("#bid").click(function(e)
-				{
-					var a = confirm("You're about to place a bid of "+$("#id_value").val()+" pounds. Are you sure?");
-					if(a)
-					{
-						var form = $(this).parent();
-						$.post( "/auction/"+$("#auction_id").val()+"/", 
-							form.serialize(),
-							function( data ) {
-	  						$("#success").html(data);
-	  						
-						}).fail(function(){
-							$("#success").html("Your bid could not be placed, try again. :(");
-						});
-					}
-					else
-						$("#success").html("Bid cancelled.");
-					e.preventDefault();
-				});
-			});
-
-		</script>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/jquery.countdown.css" %}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/auction.css" %}" media="screen" />
+    <script type="text/javascript" src="{% static "js/jquery.countdown.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/auction.js" %}"></script>
 {% endblock %}
 {% block content %}
-<input type="hidden" id="auction_id" value="{{auction.id}}"/>
-{% if invalid_auction %}
-<h1>Invalid Auction</h1>
-<p>You are trying to view an invalid auction. Try another one.</p>
-{% else %}
-
-{% if invalid_bid %}
-<h1>Invalid Bid</h1>
-<p>You have tried to make an invalid bid on this auction</p>
-{% endif %}
-
-{% if error %}
-<h1>Invalid Bid</h1>
-<p>{{error}}</p>
-{% endif %}
-<div style="float:left;width:300px;height:150px;">IMAGE	</div>
-<h1>{{auction.auctioneer}} is selling one {{auction.product.title}}</h1>
-
-<p>This is a {{auction.get_type_name}}</p>
-<p><b>Description: </b>{{auction.product.description}}</p>
-<table id="auction_info">
-    <tr><td><b>This auction began at:</b></td><td>{{auction.date_begin|date:"d/m/y H:i:s"}}</td></tr>
-    <tr><td><b>This auction will end at:</b></td><td id="date_end">{{auction.date_end|date:"d/m/y H:i:s"}}</td></tr>
-  <tr></tr> <!-- This is just to jump a line !-->
-  <tr><td><b>Product name:</b></td><td>{{auction.product.title}}</td></tr>
-</table>
-<table id="auction_info2">
-  <tr><td><b>Starting price:</b></td><td>&pound;{{auction.start_price}}</td></tr>
-</table>
-<b>Time remaining:</b><div id="countdown" style="height:45px;width:200px"></div>
-{% if auction.finished %}
-  {% if auction.winner %}
-  <table id="selling_info">
-    <tr><td><b>Sold for:</b></td><td>{{auction.winning_value}}</td></tr>
-    <tr><td><b>Sold to:</b></td><td>{{auction.winner.username}}</td></tr>
-  </table>
-  {% else %}
-  <p><b>Not sold</b></p>
-  {% endif %}
-{% else %}
-  {% if auction.auction_type != "SEAL" %}
-    {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_value}}</p>{% else %}<p><b>No bid so far</b></p>{% endif %}
-  {% endif %}
-  <h2>Bid now!</h2>
-  <form method="POST" action="">
-  	{% csrf_token %}
-  		{{ form.as_p }}
-  		<input id="bid" type="submit" name="submit" value="Bid">
-  		<div id="success"></div>
-  </form>
-{% endif %}
-
-{% endif %}
-    
-{% endblock %}  
+    <input type="hidden" id="auction_id" value="{{auction.id}}"/>
+    {% if invalid_auction %} <h1>Invalid Auction</h1> <p>You are trying to view an invalid auction. Try another one.</p>
+    {% else %} {% if invalid_bid %} <h1>Invalid Bid</h1> <p>You have tried to make an invalid bid on this auction</p>
+        {% endif %} {% if error %} <h1>Invalid Bid</h1> <p>{{error}}</p>
+        {% endif %}
+        <div id="error"> </div>
+        <h1> {{auction.product.title}} </h1>
+        <div id="image-auction"><img src="{% static "css/no_image.png" %}"/></div>
+        <p><b>Auction Type: </b>{{auction.get_type_name}}</p>
+        <p><b>Description: </b>{{auction.product.description}}</p>
+        <p><b>Auctioneer:</b> {{auction.auctioneer}}</p>
+        <p><b>This auction began at:</b> {{auction.date_begin|date:"d/m/y H:i:s"}}</p>
+        <p><b>This auction will end at:</b><span id="date_end">{{auction.date_end|date:"d/m/y H:i:s"}}</span></p>
+        <p><b>Starting price:</b> &pound;{{auction.start_price}}</p>
+        <br><br><br><br><br><br>
+        <table id="bid-table" style="margin-top:0px;">
+            <tr valign="top">
+                <td>{% if auction.finished %}
+                        {% if auction.winner %}
+                            <table id="selling_info">
+                                <tr><td><b>Sold for: &pound;</b></td><td>{{auction.winning_value}}</td></tr>
+                                <tr><td><b>Sold to: </b></td><td>{{auction.winner.username}}</td></tr>
+                            </table>
+                        {% else %}
+                            <p><b>Not sold</b></p>
+                        {% endif %}
+                    {% else %}
+                        <h2>Bid now!</h2>
+                        {% if auction.auction_type != "SEAL" %}
+                            {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_value}}</p>
+                            {% else %}<p><b>No bid so far</b></p>
+                            {% endif %}
+                        {% endif %}
+                        <form method="POST" action=""> {% csrf_token %}
+                            Bid amount: {{ form.value }}
+                            <input id="bid" type="submit" name="submit" value="Bid">
+                        </form>
+                    {% endif %}
+                </td>
+                <td valign="bottom" style="padding-left: 10px" ><p><b>Time remaining:</b></p><div id="countdown" style="height:45px;width:200px"></div></td>
+            </tr>
+        </table>
+        <div id="success"></div>
+            {% endif %}
+{% endblock %}
