@@ -166,7 +166,7 @@ def auction(request, aid):
         return render_to_response('auction.html', c)
     except Exception as e:
         # validation errors related to the form
-        c['error'] = e
+        c['error'] = e.message
         return render_to_response('auction.html', c)
 
 @login_required

@@ -36,13 +36,13 @@
                         {% endif %}
                     {% else %}
                         <h2>Bid now!</h2>
-                        {% if auction.auction_type != "SEAL" %}
+                        {% if auction.auction_type != "SEAL" and auction.auction_type != "VICK" %}
                             {% if auction.winning_bid %}<p><b>Current bid: </b>&pound;{{auction.winning_value}}</p>
                             {% else %}<p><b>No bid so far</b></p>
                             {% endif %}
                         {% endif %}
                         <form method="POST" action="/auction/{{ auction.id }}/"> {% csrf_token %}
-                            Bid amount: {{ form.value }}
+                            Bid amount: {% if form %} {{ form.value }} {% else %} <input id="id_value" type="text" name="value"/>{% endif %}
                             <input id="bid" type="submit" name="submit" value="Bid">
                         </form>
                     {% endif %}
