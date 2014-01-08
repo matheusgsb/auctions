@@ -15,9 +15,9 @@
       {% endfor %}
       <input type="submit" value="Change">
           <div id="error" style="color: red !important;">
-              {% if register_problem %}
+              {% if edit_problem %}
                 <b>Erro(s):</b>
-                {% if email_in_use %}<br> *The email provided is already in use{% endif %}
+                {% if email_in_use %}<br> *Invalid email (already in use/not an email){% endif %}
                 {% if auth_error %}<br> *The current password provided is wrong{% endif %}
                 {% if confirm_error %} <br> *The two passwords are different {% endif %}
             {% endif %}
