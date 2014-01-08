@@ -50,12 +50,12 @@ def search(request):
 def login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/home/')
+    c = RequestContext(request)
     if request.method=='POST':
         if log_user(request, request.POST['username'], request.POST['password']):
             return HttpResponseRedirect('/home/')
         else:
-            request.session['login_failed'] = True
-    c = RequestContext(request)
+            c['login_failed'] = True
     return render_to_response('login.html', c)
 
 @login_required
@@ -119,6 +119,9 @@ def edit_profile(request):
         else:
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
+            c['auth_error'] = 'old_pass' in form.errors.keys()
+            c['confirm_error'] = 'password2' in form.errors.keys()
+
     else:
         form = CustomUserChangeForm(user=request.user)
     c['form'] = form

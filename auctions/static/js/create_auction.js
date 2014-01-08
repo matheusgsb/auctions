@@ -2,35 +2,32 @@ $(document).ready(function()
 	{
 		function isDate(txtDate)
 		{
-		  var currVal = txtDate;
-		  if(currVal == '')
-		    return false;
-		  
-		  //Declare Regex  
-		  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; 
-		  var dtArray = currVal.match(rxDatePattern); // is format OK?
+			var currVal = txtDate;
+			if(currVal === '')
+				return false;
+			//Declare Regex  
+			var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; 
+			var dtArray = currVal.match(rxDatePattern); // is format OK?
 
-		  if (dtArray == null)
-		     return false;
-		 
-		  //Checks for mm/dd/yyyy format.
-		  dtMonth = dtArray[1];
-		  dtDay= dtArray[3];
-		  dtYear = dtArray[5];
-
-		  if (dtMonth < 1 || dtMonth > 12)
-		      return false;
-		  else if (dtDay < 1 || dtDay> 31)
-		      return false;
-		  else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31)
-		      return false;
-		  else if (dtMonth == 2)
-		  {
-		     var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-		     if (dtDay> 29 || (dtDay ==29 && !isleap))
-		          return false;
-		  }
-		  return true;
+			if (dtArray === null)
+				return false;
+			//Checks for mm/dd/yyyy format.
+			var dtMonth = dtArray[1];
+			var dtDay= dtArray[3];
+			var dtYear = dtArray[5];
+			if (dtMonth < 1 || dtMonth > 12)
+				return false;
+			else if (dtDay < 1 || dtDay> 31)
+				return false;
+			else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31)
+				return false;
+			else if (dtMonth == 2)
+			{
+				var isleap = (dtYear % 4 === 0 && (dtYear % 100 !== 0 || dtYear % 400 === 0));
+				if (dtDay> 29 || (dtDay ===29 && !isleap))
+					return false;
+			}
+			return true;
 		}
 		$("#id_date_end").mask("99/99/9999 99:99");
 		
@@ -41,7 +38,7 @@ $(document).ready(function()
 			var flag = true;
 			$("#auction_form").find("input").each(function()
 			{
-				if($(this).attr("type") != "file" && $(this).val() === "")
+				if($(this).attr("type") !== "file" && $(this).val() === "")
 				{	
 					alert($(this).attr("placeholder")+" is required");
 					flag=false;
@@ -78,8 +75,8 @@ $(document).ready(function()
 				$("#auction_form").submit();
 			else
 			{
-				return; 
 				e.preventDefault();
+				return; 
 			}
 		});
 		$("select").each(function()
@@ -95,7 +92,7 @@ $(document).ready(function()
 		});
 		$("#next1").click(function()
 		{
-			next_fs = $(this).parent().next();
+			var next_fs = $(this).parent().next();
 	
 			//activate next step on progressbar using the index of next_fs
 			$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
@@ -104,7 +101,7 @@ $(document).ready(function()
 		});
 		$("#next2").click(function()
 		{
-			next_fs = $(this).parent().next();
+			var next_fs = $(this).parent().next();
 	
 			//activate next step on progressbar using the index of next_fs
 			$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
@@ -113,7 +110,7 @@ $(document).ready(function()
 		});
 		$("#previous1").click(function()
 		{
-			current_fs = $(this).parent();
+			var current_fs = $(this).parent();
 	
 			//de-activate current step on progressbar
 			$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
@@ -122,7 +119,7 @@ $(document).ready(function()
 		});
 		$("#previous2").click(function()
 		{
-			current_fs = $(this).parent();
+			var current_fs = $(this).parent();
 	
 			//de-activate current step on progressbar
 			$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");

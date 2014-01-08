@@ -38,5 +38,5 @@ function validateEmail(email) {
             $("#error").html(error_msg);
             return false;
         }
-      })
+      });
     });

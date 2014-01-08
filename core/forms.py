@@ -44,19 +44,23 @@ class CustomUserChangeForm(forms.ModelForm):
             self.fields['email'].label = user.email
 
         for key in self.fields:
-            self.fields[key].required = False    
+            self.fields[key].required = False  
+
+    def clean_old_pass(self):
+        old_pass = self.cleaned_data.get("old_pass")
+
+        if old_pass and not self._user.check_password(old_pass):
+            msg = "Wrong password"
+            raise forms.ValidationError(msg)
+
+        return old_pass
 
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
-        old_pass = self.cleaned_data.get("old_pass")
         if password1 and password2 and password1 != password2:
             msg = "Passwords don't match"
-            raise forms.ValidationError(msg)
-
-        if old_pass and not self._user.check_password(old_pass):
-            msg = "Wrong password"
             raise forms.ValidationError(msg)
 
         return password2
