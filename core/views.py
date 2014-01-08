@@ -17,6 +17,8 @@ import json
 from django.http import HttpResponse
 
 # Create your views here.
+
+#every function below handles HTTP requests for /function_name/parameters/
 def home(request):
     c = RequestContext(request)
     auctions = Auction.objects.filter(date_end__gte=datetime.datetime.now()).order_by('-date_begin')[0:20]
@@ -37,7 +39,7 @@ def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
-    auctions = Auction.objects.filter() #get every auction object on the date base
+    auctions = Auction.objects.filter() #get every auction object on the database
     auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
     # through list comprehesion, filter the results according to the product name
     #lower() is used to make the search case insensitive
@@ -68,7 +70,7 @@ def category(request, cat):
         c['invalid_cat'] = True
         return render_to_response('category.html', c)
     c['cat_name'] = categories[cat.upper()]
-    auctions = Auction.objects.filter(date_end__gte=datetime.date.today())
+    auctions = Auction.objects.filter(date_end__gte=datetime.date.today()) # gets every auction with open bids
     auctions = [auction for auction in auctions if auction.product.category == cat.upper()] #it is necessary to put the category in upper case
     c['num_auctions'] = len(auctions) #sets the number of auctions
     c['auctions'] = auctions
@@ -78,7 +80,6 @@ def category(request, cat):
 @user_passes_test(lambda u: u.is_anonymous)
 def register(request):
     c = RequestContext(request)
-    c['register_problem'] = False
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -151,18 +152,21 @@ def auction(request, aid):
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
-                return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
+                c['bid_success'] = True
+                # return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
                 c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
-    except ValidationError as e:
-        return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
-    except Exception as e:
+        c['form'] = form
+        return render_to_response('auction.html', c)
+    except Auction.DoesNotExist:
+        # the provided auction id does not exist
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
-    c['form'] = form
-    return render_to_response('auction.html', c)
+    except Exception as e:
+        c['error'] = e
+        return render_to_response('auction.html', c)
 
 @login_required
 def create_auction(request):
@@ -189,7 +193,9 @@ def contact(request):
         form = ContactForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/home/')
+            c['ok'] = True
+        else:
+            c['fail'] = True
     else:
         form = ContactForm()
     c['form'] = form

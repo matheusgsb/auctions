@@ -167,7 +167,7 @@ class BidCreationForm(forms.ModelForm):
             # verifies if british auction deadline should be extended
             if self._auction.auction_type == 'BRIT':
                 w_bid = self._auction.winning_bid()
-                if td.seconds < 60*TIME_LIMIT and bid.value > w_bid.value:
+                if w_bid and td.seconds < 60*TIME_LIMIT and bid.value > w_bid.value:
                     self._auction.date_end = self._auction.date_end + timedelta(seconds=60*TIME_EXTENSION)
                     self._auction.save()
 
