@@ -10,7 +10,7 @@
 <p><form method="post" action="/login/"> {% csrf_token %}
   <input class="input-text" type="text" id="username_page" name="username" value="" placeholder="Username"><br />
   <input class="input-text" type="password" id="password_page" name="password" value="" placeholder="Password"><br />
-  <input style="margin:10px;" type="submit" name="submit" id="submit_page"><a href="/register/">Register</a><br />
+  <input style="margin:10px;" type="submit" name="submit" id="submit_page"><a href="/register/" style="color: #575757; text-decoration:underline;">Register</a><br />
 </form></p>
 
 <div id="error_page" style="color: red !important;"> {% if login_failed %} <b>Error: </b> Wrong user and/or password! {% endif %}</div>
