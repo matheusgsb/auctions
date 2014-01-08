@@ -41,7 +41,7 @@
                             {% else %}<p><b>No bid so far</b></p>
                             {% endif %}
                         {% endif %}
-                        <form method="POST" action=""> {% csrf_token %}
+                        <form method="POST" action="/auction/{{ auction.id }}/"> {% csrf_token %}
                             Bid amount: {{ form.value }}
                             <input id="bid" type="submit" name="submit" value="Bid">
                         </form>
