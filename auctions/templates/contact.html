@@ -10,7 +10,40 @@
     <h1> Contact Us </h1>
     <form role="form" action="" method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      <table>
+      	<tr>
+	      	<td>
+	      		Name:
+	      	</td>
+	      	<td>
+	      		{{ form.name }}
+	      	</td>
+      	</tr>
+      	<tr>
+      		<td>
+      			Email:
+	      	</td>
+	      	<td>
+	      		{{ form.email }}
+	      	</td>
+      	</tr>
+      	<tr>
+      		<td>
+      			Subject:
+	      	</td>
+	      	<td>
+	      		{{ form.subject }}
+	      	</td>
+      	</tr>
+      	<tr>
+      		<td style="vertical-align:top">
+      			Message:
+	      	</td>
+	      	<td>
+	      		{{ form.message }}
+	      	</td>
+      	</tr>
+      </table>
       <input type="submit" id="register" value="Send"/>
     </form>
   {% endblock %}  

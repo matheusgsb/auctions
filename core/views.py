@@ -151,7 +151,7 @@ def auction(request, aid):
                 c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
-            
+
         c['form'] = form
         return render_to_response('auction.html', c)
     except Auction.DoesNotExist:
@@ -185,7 +185,9 @@ def contact(request):
         form = ContactForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/home/')
+            c['ok'] = True
+        else:
+            c['fail'] = True
     else:
         form = ContactForm()
     c['form'] = form
