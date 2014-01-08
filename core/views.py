@@ -19,7 +19,8 @@ from django.http import HttpResponse
 # Create your views here.
 def home(request):
     c = RequestContext(request)
-    auctions = Auction.objects.filter(date_end__gte=datetime.date.today()).order_by('-date_begin')[0:20]
+    auctions = Auction.objects.filter(date_end__gte=datetime.datetime.now()).order_by('-date_begin')[0:20]
+    #auctions holds a list of 20 auctions which are still open for bids. This list is ordered from newest auction to oldest
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
