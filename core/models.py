@@ -4,6 +4,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+# Django's default User model chosen instead of creating Custom User
+
+# model for products associated to auctions
 class Product(models.Model):
     CATEGORIES = (
         ('AUDIO', 'Audio & Stereo'),
@@ -29,6 +32,7 @@ class Product(models.Model):
     def __unicode__(self):
         return str(self.id) + " - " + self.title
 
+# model that links bids users make to auctions
 class Bid(models.Model):
     bidder = models.ForeignKey(User, verbose_name=u'Bidder')
     date = models.DateTimeField(default=datetime.datetime.now(), verbose_name=u'Date')
@@ -49,7 +53,7 @@ class Contact(models.Model):
     def __unicode__(self):
         return str(self.id) + " - " + str(self.date) + " " + self.name
 
-
+# Auction model defines the structure of each auction and its behaviours
 class Auction(models.Model):
     TYPE = (
         ('SEAL', 'Sealed bid auction'),
@@ -63,6 +67,7 @@ class Auction(models.Model):
     product = models.ForeignKey('Product', verbose_name=u'Product')
     auction_type = models.CharField(max_length=5, choices=TYPE, default='BRIT')
     start_price = models.FloatField(default=0, verbose_name=u'Start price')
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return str(self.id)

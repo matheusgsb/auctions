@@ -22,21 +22,33 @@ class Migration(SchemaMigration):
         db.create_table(u'core_bid', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('bidder', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 7, 0, 0))),
+            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 8, 0, 0))),
             ('value', self.gf('django.db.models.fields.FloatField')()),
             ('auction', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Auction'])),
         ))
         db.send_create_signal(u'core', ['Bid'])
 
+        # Adding model 'Contact'
+        db.create_table(u'core_contact', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=25)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=50)),
+            ('subject', self.gf('django.db.models.fields.CharField')(max_length=25)),
+            ('message', self.gf('django.db.models.fields.TextField')()),
+            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 8, 0, 0))),
+        ))
+        db.send_create_signal(u'core', ['Contact'])
+
         # Adding model 'Auction'
         db.create_table(u'core_auction', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('auctioneer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('date_begin', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 7, 0, 0))),
-            ('date_end', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 7, 0, 0))),
+            ('date_begin', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 8, 0, 0))),
+            ('date_end', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 1, 8, 0, 0))),
             ('product', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Product'])),
             ('auction_type', self.gf('django.db.models.fields.CharField')(default='BRIT', max_length=5)),
             ('start_price', self.gf('django.db.models.fields.FloatField')(default=0)),
+            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'core', ['Auction'])
 
@@ -47,6 +59,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Bid'
         db.delete_table(u'core_bid')
+
+        # Deleting model 'Contact'
+        db.delete_table(u'core_contact')
 
         # Deleting model 'Auction'
         db.delete_table(u'core_auction')
@@ -91,10 +106,11 @@ class Migration(SchemaMigration):
         },
         u'core.auction': {
             'Meta': {'object_name': 'Auction'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'auction_type': ('django.db.models.fields.CharField', [], {'default': "'BRIT'", 'max_length': '5'}),
             'auctioneer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'date_begin': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 7, 0, 0)'}),
-            'date_end': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 7, 0, 0)'}),
+            'date_begin': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 8, 0, 0)'}),
+            'date_end': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 8, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'product': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Product']"}),
             'start_price': ('django.db.models.fields.FloatField', [], {'default': '0'})
@@ -103,9 +119,18 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Bid'},
             'auction': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Auction']"}),
             'bidder': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 7, 0, 0)'}),
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 8, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'value': ('django.db.models.fields.FloatField', [], {})
+        },
+        u'core.contact': {
+            'Meta': {'object_name': 'Contact'},
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 1, 8, 0, 0)'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '50'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'message': ('django.db.models.fields.TextField', [], {}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '25'}),
+            'subject': ('django.db.models.fields.CharField', [], {'max_length': '25'})
         },
         u'core.product': {
             'Meta': {'object_name': 'Product'},

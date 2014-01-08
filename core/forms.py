@@ -6,6 +6,12 @@ from .models import *
 import pytz
 from datetime import timedelta
 
+# File do declare forms for models
+
+# Django's default User forms (creation and change) are not used
+# as they don't validate fields as intended
+
+# CustomUserCreationForm makes email required and unique
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -27,6 +33,9 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
 
+# CustomUserChangeForm makes email unique and required
+# and checks old password when changing it
+# clean_<fieldname> are functions to validate each <fieldname>
 class CustomUserChangeForm(forms.ModelForm):
     old_pass = forms.CharField(label='Current password', widget=forms.PasswordInput)
     password1 = forms.CharField(label='New password', widget=forms.PasswordInput)
@@ -88,6 +97,7 @@ class CustomUserChangeForm(forms.ModelForm):
             user.save()
         return user
 
+# Presents form for creating auctions and product
 class AuctionCreationForm(forms.ModelForm):
     p_category = forms.ChoiceField(label='Product categories',
         widget=forms.Select, choices=Product.CATEGORIES)
@@ -98,7 +108,7 @@ class AuctionCreationForm(forms.ModelForm):
 
     class Meta:
         model = Auction
-        exclude = ['auctioneer', 'date_begin', 'product']
+        exclude = ['auctioneer', 'date_begin', 'product', 'active']
         widgets = {
             'date_end': forms.DateTimeInput,
         }
@@ -134,6 +144,7 @@ class AuctionCreationForm(forms.ModelForm):
             auction.save()
         return auction
 
+# Creates bid form for auction pages
 class BidCreationForm(forms.ModelForm):
     class Meta:
         model = Bid
