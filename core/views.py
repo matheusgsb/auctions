@@ -66,13 +66,13 @@ def logout(request):
 def category(request, cat):
     categories = {'AUDIO': 'Audio & Stereo', 'BABY': 'Baby & Kids Stuff', 'MEDIA': 'CDs, DVDs, Games & Books', 'FASH': 'Clothes, Footwear & Accessories', 'TECH': 'Computers & Software', 'HOME': 'Home & Garden', 'MUSIC': 'Music & Instruments', 'OFFIC': 'Office Furniture & Equipment', 'PHONE': 'Phones, Mobile Phones & Telecoms', 'SPORT': 'Sports, Leisure & Travel', 'SCRNS': 'TV, DVD & Cameras', 'GAMES': 'Video Games & Consoles', 'NA': 'Other'}
     c = RequestContext(request)
-    if not cat.upper() in categories.keys():
+    if not cat.upper() in categories.keys(): #upper() is necessary to allow lower case urls
         c['invalid_cat'] = True
         return render_to_response('category.html', c)
     c['cat_name'] = categories[cat.upper()]
     auctions = Auction.objects.filter(date_end__gte=datetime.date.today()) # gets every auction with open bids
     auctions = [auction for auction in auctions if auction.product.category == cat.upper()] #it is necessary to put the category in upper case
-    c['num_auctions'] = len(auctions) #sets the number of auctions
+    c['num_auctions'] = len(auctions)
     c['auctions'] = auctions
     return render_to_response('category.html', c)
 
@@ -97,9 +97,9 @@ def register(request):
 @login_required
 def profile(request):
     c = RequestContext(request)
-    auctions_created = Auction.objects.filter(auctioneer=request.user).order_by('-date_begin')
+    auctions_created = Auction.objects.filter(auctioneer=request.user).order_by('-date_begin') #auctions created by the user
     auctions_won = Auction.objects.filter(date_end__lt=datetime.datetime.now())
-    auctions_won = [auction for auction in auctions_won if auction.winner() == request.user]
+    auctions_won = [auction for auction in auctions_won if auction.winner() == request.user] #auctions won by the user
     c['auctions_created'] = auctions_created
     c['num_auct_created'] = len(auctions_created)
     c['auctions_won'] = auctions_won
@@ -146,9 +146,9 @@ def forgot_password(request):
 def auction(request, aid):
     c = RequestContext(request)
     try:
-        auction = Auction.objects.get(id=aid)
+        auction = Auction.objects.get(id=aid) #if the auction is not found will yield DoesNotExist exception
         c['auction'] = auction
-        if request.method == "POST":
+        if request.method == "POST": #if POST request, the user is trying to post a bid
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
@@ -165,6 +165,7 @@ def auction(request, aid):
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
     except Exception as e:
+        # validation errors related to the form
         c['error'] = e
         return render_to_response('auction.html', c)
 

@@ -6,9 +6,11 @@ function validateEmail(email) {
 }
     $(document).ready(function()
     {
+      //validations before submission
       $("#register").click(function(e)
       {
         var error_msg = "<b>Error(s):</b><br>";
+        //all inputs are required
         if($("#id_username").val()==="")
         {
           error_msg += " *Insert an username<br>";
@@ -19,21 +21,25 @@ function validateEmail(email) {
           error_msg += " *Invalid e-mail<br>";
           e.preventDefault();
         }
+        //passwords 1 and 2 must be equal
         if($("#id_password1").val()!=$("#id_password2").val())
         {
           error_msg += " *The passwords are different<br>";
           e.preventDefault();
         }
+        //passwords cannot be bigger than 15 characteres
         if($("#id_password1").val().length >15 || $("#id_password2").val().length >15)
         {
           error_msg += " *Password too long<br>";
           e.preventDefault();
         }
+        //passwords cannot be lower than 15 characteres
         if($("#id_password1").val().length <6 || $("#id_password2").val().length <6)
         {
           error_msg += " *Password too short<br>";
           e.preventDefault();
         }
+        //display the concatenated errors
         if(error_msg != "<b>Error(s):</b><br>") {
             $("#error").html(error_msg);
             return false;
