@@ -178,4 +178,13 @@ def about(request):
 
 def contact(request):
     c = RequestContext(request)
-    return render_to_response("contact.html", c)
+    if request.method == 'POST':
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            form.contact_adm()
+            return HttpResponseRedirect('/home/')
+    else:
+        form = ContactForm()
+    c['form'] = form
+    return render_to_response('contact.html', c)
+
