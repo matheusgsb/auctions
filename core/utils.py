@@ -32,6 +32,7 @@ def reset_password(user, password):
     user.set_password(password)
     user.save()
 
+# utility function to send formatted email
 def mail(name, to_email, html_path, password='', subject='No Reply - AuctionZ', context=None):
     if not '@' in to_email:
         return

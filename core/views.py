@@ -61,10 +61,11 @@ def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
-    auctions = Auction.objects.filter() #get every auction object on the database
-    auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
-    # through list comprehesion, filter the results according to the product name
+    #get every auction object on the database
+    auctions = Auction.objects.all()
+    # through list comprehesion, filters the results according to the product name
     #lower() is used to make the search case insensitive
+    auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
     c['auctions'] = auctions
     c['term'] = request.POST["term"]
     return render_to_response('search.html', c)
@@ -85,6 +86,7 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/home/")
 
+# renders auctions on given category
 def category(request, cat):
     categories = {'AUDIO': 'Audio & Stereo', 'BABY': 'Baby & Kids Stuff', 'MEDIA': 'CDs, DVDs, Games & Books', 'FASH': 'Clothes, Footwear & Accessories', 'TECH': 'Computers & Software', 'HOME': 'Home & Garden', 'MUSIC': 'Music & Instruments', 'OFFIC': 'Office Furniture & Equipment', 'PHONE': 'Phones, Mobile Phones & Telecoms', 'SPORT': 'Sports, Leisure & Travel', 'SCRNS': 'TV, DVD & Cameras', 'GAMES': 'Video Games & Consoles', 'NA': 'Other'}
     c = RequestContext(request)
@@ -98,7 +100,7 @@ def category(request, cat):
     c['auctions'] = auctions
     return render_to_response('category.html', c)
 
-
+# Registers a new user if (s)he's not logged in
 @user_passes_test(lambda u: u.is_anonymous)
 def register(request):
     c = RequestContext(request)
@@ -116,6 +118,7 @@ def register(request):
     c['form'] = form
     return render_to_response('register.html', c)
 
+# each user can only see his own profile
 @login_required
 def profile(request):
     c = RequestContext(request)
@@ -149,8 +152,7 @@ def edit_profile(request):
     c['form'] = form
     return render_to_response('edit_profile.html', c)
 
-    
-
+# sends email with new password to user
 def forgot_password(request):
     c = RequestContext(request)
     if request.user.is_authenticated():
@@ -164,13 +166,15 @@ def forgot_password(request):
             c['error'] = True
     return render_to_response('forgot_password.html', c)
 
-
+# renders detailed auction information
 def auction(request, aid):
     c = RequestContext(request)
     try:
-        auction = Auction.objects.get(id=aid) #if the auction is not found will yield DoesNotExist exception
+        #if the auction is not found will yield DoesNotExist exception
+        auction = Auction.objects.get(id=aid) 
         c['auction'] = auction
-        if request.method == "POST": #if POST request, the user is trying to post a bid
+        #if POST request, the user is trying to post a bid
+        if request.method == "POST": 
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
@@ -191,6 +195,7 @@ def auction(request, aid):
         c['error'] = e.message
         return render_to_response('auction.html', c)
 
+# Only registered users may create auctions
 @login_required
 def create_auction(request):
     c = RequestContext(request)
@@ -210,6 +215,7 @@ def about(request):
     c = RequestContext(request)
     return render_to_response("about.html", c)
 
+# Contact form 
 def contact(request):
     c = RequestContext(request)
     if request.method == 'POST':
