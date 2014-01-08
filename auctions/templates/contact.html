@@ -46,4 +46,10 @@
       </table>
       <input type="submit" id="register" value="Send"/>
     </form>
+    {% if fail %}
+    	<p style="color:red">The message could not be delivered please try again.</p>
+    {% endif %}
+    {% if ok %}
+    	<p style="color:green">Message delivered.</p>
+    {% endif %}
   {% endblock %}  

@@ -32,7 +32,7 @@ $(document).ready(function()
 		  }
 		  return true;
 		}
-		$("#id_date_end").mask("99/99/9999 99:99:99");
+		$("#id_date_end").mask("99/99/9999 99:99");
 		
 		$("input").addClass("editable");
 		$("select").addClass("editable");
@@ -43,7 +43,13 @@ $(document).ready(function()
 			{
 				if($(this).attr("type") != "file" && $(this).val() === "")
 				{	
-					alert($(this).attr("placeholder")+" is obligatory");
+					alert($(this).attr("placeholder")+" is required");
+					flag=false;
+					return false;
+				}
+				if($(this).attr("id")==="id_p_image" && $(this).val() === "")
+				{
+					alert("Please upload an image");
 					flag=false;
 					return false;
 				}
@@ -51,7 +57,7 @@ $(document).ready(function()
 				{
 					var val = $(this).val().split(" ");
 					var time = val[1].split(":");
-					if(!isDate(val[0]) || time[0]>23 || time[1]>59 || time[2]>59)
+					if(!isDate(val[0]) || time[0]>23 || time[1]>59)
 					{
 						alert("The end date is invalid!");
 						flag=false;
@@ -60,7 +66,7 @@ $(document).ready(function()
 				}
 				if($(this).attr("id")==="id_start_price")
 				{
-					if(isNaN($(this).val()))
+					if(isNaN($(this).val()) || $(this).val()<0)
 					{
 						alert("Invalid starting price!");
 						flag=false;

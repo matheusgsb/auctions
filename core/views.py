@@ -183,10 +183,14 @@ def contact(request):
     c = RequestContext(request)
     if request.method == 'POST':
         form = ContactForm(data=request.POST)
+        print "d"
         if form.is_valid():
+            print "a"
             form.save()
+            print "b"
             c['ok'] = True
         else:
+            print "c"
             c['fail'] = True
     else:
         form = ContactForm()

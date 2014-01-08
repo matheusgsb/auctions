@@ -22,16 +22,6 @@ $(document).ready(function(){
         }
         var a = confirm("You're about to place a bid of "+$("#id_value").val()+" pounds. Are you sure?");
         if(!a) 
-            //{
-         //   var form = $(this).parent();
-          //  $.post( "/auction/"+$("#auction_id").val()+"/",form.serialize(), function( data ) {
-          //      
-          //  }).fail(function(){
-          //      alert("Your bid could not be placed, try again.");
-          //      e.preventDefault();
-          //      return false;
-          //  });
-        //} else
         {
             alert("Bid cancelled.");
             e.preventDefault();
