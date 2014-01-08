@@ -19,7 +19,8 @@ from django.http import HttpResponse
 # Create your views here.
 def home(request):
     c = RequestContext(request)
-    auctions = Auction.objects.filter(date_end__gte=datetime.date.today()).order_by('-date_begin')[0:20]
+    auctions = Auction.objects.filter(date_end__gte=datetime.datetime.now()).order_by('-date_begin')[0:20]
+    #auctions holds a list of 20 auctions which are still open for bids. This list is ordered from newest auction to oldest
     c['auctions'] = auctions #list of the lastest 20 auctions
     return render_to_response("index.html", c)
 
@@ -36,8 +37,10 @@ def search(request):
     c = RequestContext(request)
     if not request.method == "POST":
         return HttpResponseRedirect('/home/')
-    auctions = Auction.objects.filter()
+    auctions = Auction.objects.filter() #get every auction object on the date base
     auctions = [auction for auction in auctions if request.POST["term"].lower() in auction.product.title.lower()]
+    # through list comprehesion, filter the results according to the product name
+    #lower() is used to make the search case insensitive
     c['auctions'] = auctions
     c['term'] = request.POST["term"]
     return render_to_response('search.html', c)
@@ -45,15 +48,12 @@ def search(request):
 def login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/home/')
+    c = RequestContext(request)
     if request.method=='POST':
         if log_user(request, request.POST['username'], request.POST['password']):
             return HttpResponseRedirect('/home/')
         else:
-            request.session['login_failed'] = True
-            c = RequestContext(request)
-            c['wrong_login'] = True
-            return render_to_response('login.html', c)
-    c = RequestContext(request)
+            c['login_failed'] = True
     return render_to_response('login.html', c)
 
 @login_required
@@ -116,9 +116,11 @@ def edit_profile(request):
             form.save()
             return HttpResponseRedirect('/home/')
         else:
-            print form.errors
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
+            c['auth_error'] = 'old_pass' in form.errors.keys()
+            c['confirm_error'] = 'password2' in form.errors.keys()
+
     else:
         form = CustomUserChangeForm(user=request.user)
     c['form'] = form
@@ -149,19 +151,18 @@ def auction(request, aid):
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
-                #return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
+                return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
                 c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
-
-        c['form'] = form
-        return render_to_response('auction.html', c)
-    except Auction.DoesNotExist:
+    except ValidationError as e:
+        return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
+    except Exception as e:
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
-    except Exception:
-        return render_to_response('auction.html', c)
+    c['form'] = form
+    return render_to_response('auction.html', c)
 
 @login_required
 def create_auction(request):
@@ -186,15 +187,9 @@ def contact(request):
     c = RequestContext(request)
     if request.method == 'POST':
         form = ContactForm(data=request.POST)
-        print "d"
         if form.is_valid():
-            print "a"
             form.save()
-            print "b"
-            c['ok'] = True
-        else:
-            print "c"
-            c['fail'] = True
+            return HttpResponseRedirect('/home/')
     else:
         form = ContactForm()
     c['form'] = form
