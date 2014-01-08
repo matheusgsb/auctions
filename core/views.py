@@ -50,9 +50,6 @@ def login(request):
             return HttpResponseRedirect('/home/')
         else:
             request.session['login_failed'] = True
-            c = RequestContext(request)
-            c['wrong_login'] = True
-            return render_to_response('login.html', c)
     c = RequestContext(request)
     return render_to_response('login.html', c)
 
@@ -116,7 +113,6 @@ def edit_profile(request):
             form.save()
             return HttpResponseRedirect('/home/')
         else:
-            print form.errors
             c['edit_problem'] = True
             c['email_in_use'] = 'email' in form.errors.keys()
     else:
@@ -149,19 +145,18 @@ def auction(request, aid):
             form = BidCreationForm(user=request.user, auction=auction, data=request.POST)
             if form.is_valid():
                 form.save()
-                #return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
+                return HttpResponse(json.dumps("Your bid was placed successfully."), content_type="application/json")
             else:
                 c['errors'] = form.errors
         else:
             form = BidCreationForm(user=request.user, auction=auction)
-
-        c['form'] = form
-        return render_to_response('auction.html', c)
-    except Auction.DoesNotExist:
+    except ValidationError as e:
+        return HttpResponse(json.dumps("You cannot bid to your own auction"), content_type="application/json")
+    except Exception as e:
         c['invalid_auction'] = True
         return render_to_response('auction.html', c)
-    except Exception:
-        return render_to_response('auction.html', c)
+    c['form'] = form
+    return render_to_response('auction.html', c)
 
 @login_required
 def create_auction(request):
@@ -186,15 +181,9 @@ def contact(request):
     c = RequestContext(request)
     if request.method == 'POST':
         form = ContactForm(data=request.POST)
-        print "d"
         if form.is_valid():
-            print "a"
             form.save()
-            print "b"
-            c['ok'] = True
-        else:
-            print "c"
-            c['fail'] = True
+            return HttpResponseRedirect('/home/')
     else:
         form = ContactForm()
     c['form'] = form
