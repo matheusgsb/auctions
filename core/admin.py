@@ -8,3 +8,4 @@ from .forms import *
 admin.site.register(Auction)
 admin.site.register(Bid)
 admin.site.register(Product)
+admin.site.register(Contact)

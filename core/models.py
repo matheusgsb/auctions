@@ -39,15 +39,14 @@ class Bid(models.Model):
         return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
 
 
-class Contact(models.Model):
-    
-    name = models.CharField(max_length=100, verbose_name=u'Name')
-    email = models.CharField(max_length=100, verbose_name=u'EMail')
-    subject = models.CharField(max_length=100, verbose_name=u'Subject')
-    message = models.CharField(max_length=1000, verbose_name=u'Message')
+class Contact(models.Model):    
+    name = models.CharField(max_length=25, verbose_name=u'Name')
+    email = models.EmailField(max_length=25, verbose_name=u'Email')
+    subject = models.CharField(max_length=25, verbose_name=u'Subject')
+    message = models.TextField(verbose_name=u'Message')
 
     def __unicode__(self):
-        return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
+        return str(self.id) + " - " + str(self.date) + " " + self.name
 
 
 class Auction(models.Model):

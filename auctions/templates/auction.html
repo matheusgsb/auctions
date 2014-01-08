@@ -15,7 +15,7 @@
         {% endif %}
         <div id="error"> </div>
         <h1> {{auction.product.title}} </h1>
-        <div id="image-auction"><img src="{{ auction.product.image.url }}" width="250" height="250"/></div>
+        <div id="image-auction"><a href="{{ auction.product.image.url }}" alt="Full size image" target="_blank"><img src="{{ auction.product.image.url }}" width="250" height="250"/></a></div>
         <p><b>Auction Type: </b>{{auction.get_type_name}}</p>
         <p><b>Description: </b>{{auction.product.description}}</p>
         <p><b>Auctioneer:</b> {{auction.auctioneer}}</p>
