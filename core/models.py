@@ -38,6 +38,18 @@ class Bid(models.Model):
     def __unicode__(self):
         return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
 
+
+class Contact(models.Model):
+    
+    name = models.CharField(max_length=100, verbose_name=u'Name')
+    email = models.CharField(max_length=100, verbose_name=u'EMail')
+    subject = models.CharField(max_length=100, verbose_name=u'Subject')
+    message = models.CharField(max_length=1000, verbose_name=u'Message')
+
+    def __unicode__(self):
+        return str(self.id) + " - " + str(self.date) + " " + self.bidder.username
+
+
 class Auction(models.Model):
     TYPE = (
         ('SEAL', 'Sealed bid auction'),
