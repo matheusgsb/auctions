@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from .utils import *
 from .models import *
 from .forms import *
-from django.core.mail import send_mail
 import datetime
 import json
 from django.http import HttpResponse
@@ -25,9 +24,29 @@ def home(request):
     #auctions holds a list of 20 auctions which are still open for bids. This list is ordered from newest auction to oldest
     c['auctions'] = auctions #list of the lastest 20 auctions
 
-    update_auctions(request)
-
     return render_to_response("index.html", c)
+
+# function to be called by AJAX
+def update_auctions(request):
+    auctions = Auction.objects.filter(active=True)
+    for auction in auctions:
+        if auction.finished():
+            auction.active = False
+            winner = auction.winner()
+            context = {'auction': auction}
+            if winner:
+                # email to winning bidder
+                mail(name='', to_email=winner.email, html_path='mail_won.html',
+                    subject='Auction won on AuctionZ!', context=context)
+                # email to auctioneer
+                mail(name='', to_email=auction.auctioneer.email, html_path='mail_sold.html',
+                    subject='Auction sold on AuctionZ!', context=context)
+            else:
+                mail(name='', to_email=auction.auctioneer.email, html_path='mail_not_sold.html',
+                    subject='Auction expired on AuctionZ!', context=context)
+
+            auction.save()
+    return HttpResponseRedirect('/home/')
 
 def error404(request):
     c = RequestContext(request)

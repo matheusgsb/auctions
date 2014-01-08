@@ -3,6 +3,12 @@
 {% block head %}
     {% load staticfiles %}
     <script src="{% static "js/show-details.js" %}"> </script>
+    <script> 
+        $(document).ready(function()
+        {
+            $.get("/update_auctions/");
+        });
+    </script>
 {% endblock %}
 {% block content %}
 

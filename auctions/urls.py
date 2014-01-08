@@ -28,6 +28,8 @@ urlpatterns = patterns('',
     url(r'^about/$', 'core.views.about', name='about'),
     url(r'^contact/$', 'core.views.contact', name='contact'),
 
+    url(r'^update_auctions/$', 'core.views.update_auctions', name='update_auctions'),
+
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

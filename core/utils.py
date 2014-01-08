@@ -23,7 +23,7 @@ def recover_password(email):
     new_pass = randint(100000, 999999)
     reset_password(user=user, password=str(new_pass))
 
-    send_mail(name=user.username, to_email=email,
+    mail(name=user.username, to_email=email,
         password=new_pass, html_path='mail_password.html',
         subject='Password recovery - AuctionZ')
 
@@ -32,7 +32,7 @@ def reset_password(user, password):
     user.set_password(password)
     user.save()
 
-def send_mail(name, to_email, html_path, password='', subject='No Reply - AuctionZ', context=None):
+def mail(name, to_email, html_path, password='', subject='No Reply - AuctionZ', context=None):
     if not '@' in to_email:
         return
     if not context:
@@ -51,22 +51,3 @@ def send_mail(name, to_email, html_path, password='', subject='No Reply - Auctio
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-def update_auctions(request):
-    auctions = Auction.objects.filter(active=True)
-    for auction in auctions:
-        if auction.finished():
-            auction.active = False
-            winner = auction.winner()
-            context = {'auction': auction}
-            if winner:
-                # email to winning bidder
-                send_mail(name='', to_email=winner.email, html_path='mail_won.html',
-                    subject='Auction won on AuctionZ!', context=context)
-                # email to auctioneer
-                send_mail(name='', to_email=auction.auctioneer.email, html_path='mail_sold.html',
-                    subject='Auction sold on AuctionZ!', context=context)
-            else:
-                send_mail(name='', to_email=auction.auctioneer.email, html_path='mail_not_sold.html',
-                    subject='Auction expired on AuctionZ!', context=context)
-
-            auction.save()
